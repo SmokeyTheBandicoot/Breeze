@@ -25,6 +25,7 @@ Module Module1
     Dim IsExit As Boolean = False
     Dim IsPaused As Boolean = False
     Dim ShowGrid As Boolean = False
+    Dim ResourceFold As String = "GameShardsCore\Resources\Fonts"
 
     'Audio
     'Sound
@@ -97,7 +98,10 @@ Module Module1
     Dim HP As Byte = 100
 
     'Graphic Elements
+    Dim Font As SFML.Graphics.Font
     Dim Player As New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"))
+    Dim Background As New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif"))
+    Dim HUDTopLeft As New Text
 
 
 
@@ -118,13 +122,80 @@ Module Module1
 
             window.Clear()
             window.DispatchEvents()
-            GameLoop()
+
+            If Not IsPaused Then
+
+                'Execute Physics
+                GameLoop()
+
+                'Update Rendering
+
+                'Update HUDs
+                'HUDTopLeft = New Text(), New SFML.Graphics.Font("DejaVuSans.ttf"))
+                HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration)
+                HUDTopLeft.CharacterSize = 16
+                HUDTopLeft.Position = New Vector2f(0, 0)
+
+                'Update Player position
+                Player.Position = New Vector2f(Pict.Left, Pict.Top)
+
+                'Update CheckPoints
+
+                'Update Items
+
+                'Update Blocks
+
+                'Update Background objects
+
+                'Update Background
+                Background.Position = New Vector2f(-BackScroll / 10, 0)
+
+            End If
+
+            'Draw everything
+            'Draw Background
+            window.Draw(Background)
+
+            'Draw Background objects
+            'Draw Blocks
+            'Draw Items
+            'Draw Checkpoints
+
+            'Draw player
             window.Draw(Player)
+
+            'Draw HUDs
+            window.Draw(HUDTopLeft)
+
             window.Display()
 
-            Player = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"), New IntRect(Pict.Left, Pict.Top, 20, 20))
+            'Player = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"), New IntRect(Pict.Left, Pict.Top, 20, 20))
         End While
 
+
+
+    End Sub
+
+    Public Sub Initialize()
+        'Do here the things to do when the application starts
+        WaMusic.Init(RdMusic)
+        WaMusic.Play()
+
+        window.SetFramerateLimit(60)
+
+        'Should load here all resources
+        'Load Font
+        HUDTopLeft.Font = New SFML.Graphics.Font("crash-a-like.ttf")
+
+        'GameLoopThread = New Thread(AddressOf GameLoop)
+        'GameLoopThread.Priority = ThreadPriority.Highest
+        'GameLoopThread.IsBackground = True
+        'GameLoopThread.Start()
+        'GameLoop()
+
+        'YLocation will be replaced by level's startpoint
+        Pict.Location = New Point(XLoc, 30)
+        Pict.Size = New Size(20, 20)
 
 
     End Sub
@@ -205,24 +276,61 @@ Module Module1
         'Loop
     End Sub
 
-    Public Sub Initialize()
-        'Do here the things to do when the application starts
-        WaMusic.Init(RdMusic)
-        WaMusic.Play()
 
-        'GameLoopThread = New Thread(AddressOf GameLoop)
-        'GameLoopThread.Priority = ThreadPriority.Highest
-        'GameLoopThread.IsBackground = True
-        'GameLoopThread.Start()
-        'GameLoop()
 
-        'YLocation will be replaced by level's startpoint
-        Pict.Location = New Point(XLoc, 30)
-        Pict.Size = New Size(20, 20)
+    Sub WindowClosed(ByVal sender As Object, ByVal e As EventArgs) Handles window.Closed
+        window.Close()
+        'Dim window = CType(sender, RenderWindow)
     End Sub
 
-    Sub App_Closed(ByVal sender As Object, ByVal e As EventArgs) Handles window.Closed
-        Dim window = CType(sender, RenderWindow)
-        window.Close()
+    Sub WindowClick(ByVal sender As Object, e As EventArgs) Handles window.MouseButtonPressed
+        IsPaused = (Not IsPaused)
+    End Sub
+
+    Sub WindowKeyDown(ByVal sender As Object, e As SFML.Window.KeyEventArgs) Handles window.KeyPressed
+        Select Case True
+            Case e.Code = Keyboard.Key.W
+                Gravity = 0
+                Select Case Env
+                    Case FlightEnvironment.Normal
+                        YAcceleration = -0.2
+                    Case FlightEnvironment.Underwater
+                        YAcceleration = -0.1
+                    Case FlightEnvironment.Moon
+                        YAcceleration = -0.05
+                End Select
+            Case e.Code = Keyboard.Key.S
+                Select Case Env
+                    Case FlightEnvironment.Normal
+                        YAcceleration = 0.2
+                    Case FlightEnvironment.Underwater
+                        YAcceleration = 0.1
+                    Case FlightEnvironment.Moon
+                        YAcceleration = 0.05
+                End Select
+            Case e.Code = Keyboard.Key.D
+
+                'Select Case Env
+                '    Case FlightEnvironment.Normal
+                '        XAcceleration = CSng(BreezeSpeed + 0.1)
+                '    Case FlightEnvironment.Underwater
+                '        XAcceleration = CSng(BreezeSpeed + 0.05)
+                '    Case FlightEnvironment.Moon
+                '        XAcceleration = CSng(BreezeSpeed + 0.025)
+                'End Select
+                XAcceleration = CSng(Wind / 100 + (Wind / 200))
+                'Wind = 0
+            Case e.Code = Keyboard.Key.A
+
+                'Select Case Env
+                '    Case FlightEnvironment.Normal
+                '        XAcceleration = CSng(BreezeSpeed - 0.1)
+                '    Case FlightEnvironment.Underwater
+                '        XAcceleration = CSng(BreezeSpeed - 0.05)
+                '    Case FlightEnvironment.Moon
+                '        XAcceleration = CSng(BreezeSpeed - 0.025)
+                'End Select
+                XAcceleration = CSng(-Wind / 100) 'CSng(Wind / 100 - (Wind / 200))
+        End Select
     End Sub
 End Module

@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{284CDCEC-658E-4709-82CA-F21CE9717EF3}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>GameShardsBreeze.Module1</StartupObject>
+    <StartupObject>Sub Main</StartupObject>
     <RootNamespace>GameShardsBreeze</RootNamespace>
     <AssemblyName>GameShardsBreeze</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -45,6 +45,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GameShardsCoreBETA">
@@ -130,6 +133,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -140,17 +144,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="csfml-audio-2.dll" />
-    <Content Include="csfml-graphics-2.dll" />
-    <Content Include="csfml-network-2.dll" />
-    <Content Include="csfml-system-2.dll" />
-    <Content Include="csfml-window-2.dll" />
-    <Content Include="libsndfile-1.dll" />
-    <Content Include="openal32.dll" />
-    <Content Include="OpenTK.Compatibility.dll" />
-    <Content Include="OpenTK.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
