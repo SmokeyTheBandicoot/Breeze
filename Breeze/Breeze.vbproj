@@ -82,6 +82,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="tguinet">
+      <HintPath>..\..\..\..\..\Desktop\Gameshards\Librerie\SFML.NET\TGUI.NET\lib\x86\tguinet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
@@ -104,6 +107,7 @@
     <Compile Include="CheckPoint.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GameStates.vb" />
     <Compile Include="Item.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -133,7 +137,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="My Project\app.manifest" />
+    <None Include="My Project\app.manifest">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>

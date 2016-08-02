@@ -11,6 +11,7 @@ Imports NAudio.Wave
 Imports System.Windows.forms
 Imports System.Windows
 Imports System.Threading
+Imports TGUI
 
 Module Module1
 
@@ -26,6 +27,7 @@ Module Module1
     Dim IsPaused As Boolean = False
     Dim ShowGrid As Boolean = False
     Dim ResourceFold As String = "GameShardsCore\Resources\Fonts"
+    Dim CurrentState As GameStates
 
     'Audio
     'Sound
@@ -107,16 +109,10 @@ Module Module1
 
 
     Sub Main()
-        'Console.WriteLine("Starting Sub Main")
-
-        window = New RenderWindow(New VideoMode(800, 600), "Breeze")
-        Player = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"))
-
-
-        'Dim Texture As New Texture("C:\\GameShardsCore\")
-
+        'CurrentState = GameStates.
+        PreInit()
         Initialize()
-
+        PostInit()
         'Graphics thread
         While window.IsOpen
 
@@ -171,11 +167,27 @@ Module Module1
 
             'Player = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"), New IntRect(Pict.Left, Pict.Top, 20, 20))
         End While
-
-
-
     End Sub
 
+#Region "Loading"
+    ''' <summary>
+    ''' Initializes the window and the elements
+    ''' </summary>
+    Public Sub PreInit()
+        'Console.WriteLine("Starting Sub Main")
+
+        window = New RenderWindow(New VideoMode(800, 600), "Breeze")
+        Player = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"))
+
+
+        'Dim Texture As New Texture("C:\\GameShardsCore\")
+
+        Initialize()
+    End Sub
+
+    ''' <summary>
+    ''' Sets music and starting conditions
+    ''' </summary>
     Public Sub Initialize()
         'Do here the things to do when the application starts
         WaMusic.Init(RdMusic)
@@ -199,6 +211,14 @@ Module Module1
 
 
     End Sub
+
+    ''' <summary>
+    ''' Sets the GUI elements and gamestates
+    ''' </summary>
+    Public Sub PostInit()
+
+    End Sub
+#End Region
 
     Public Sub GameLoop()
         'Do While IsExit = False
@@ -279,6 +299,7 @@ Module Module1
 
 
     Sub WindowClosed(ByVal sender As Object, ByVal e As EventArgs) Handles window.Closed
+        Application.Exit()
         window.Close()
         'Dim window = CType(sender, RenderWindow)
     End Sub
