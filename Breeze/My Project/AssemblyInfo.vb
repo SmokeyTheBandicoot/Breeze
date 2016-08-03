@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Rivedere i valori degli attributi degli assembly
 
-<Assembly: AssemblyTitle("Hello")>
+<Assembly: AssemblyTitle("Breeze")>
 <Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("Hello")>
+<Assembly: AssemblyCompany("GameShards")>
+<Assembly: AssemblyProduct("GameShards Breeze")>
 <Assembly: AssemblyCopyright("Copyright ©  2016")>
 <Assembly: AssemblyTrademark("")>
 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' usando l'asterisco '*' come illustrato di seguito:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyVersion("0.0.1.0")>
+<Assembly: AssemblyFileVersion("0.0.1.0")>

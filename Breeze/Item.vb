@@ -34,6 +34,7 @@ Public Class Item
         FinishPos
         Checkpoint
         Projectile
+        Light
     End Enum
 End Class
 
