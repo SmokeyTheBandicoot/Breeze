@@ -3,33 +3,16 @@ Imports System.Drawing
 Imports SFML.Graphics
 Imports SFML.System
 Imports SFML.Window
-Imports GameShardsCore
 Imports NAudio.Wave
-Imports System.Windows.Forms
 Imports System.Threading
+Imports System.Windows.Forms
+Imports GameShardsCoreSFML
+'Imports TGUI
 
-Module Module1
-    Dim WithEvents window As RenderWindow
-
-    'Core
-
-
+Module MainGame
     'Base
     Dim IsExit As Boolean = False
     Dim IsPaused As Boolean = False
-    Dim ShowGrid As Boolean = False
-    Dim ResourceFold As String = "GameShardsCore\Resources\Fonts"
-    Dim CurrentState As GameStates
-
-    'Audio
-    'Sound
-    Dim RdMusic As New AudioFileReader("C:\GameShardsSoftware\Resources\Music\TerraSwoopForceTheme.mp3")
-    Dim WaMusic As New WaveOut
-    Dim MusicIsMuted As Boolean = False
-    'Music
-    Dim RdSound As AudioFileReader
-    Dim WaSound As New WaveOut
-    Dim SoundIsMuted As Boolean = False
 
     'Threading
     Dim GameLoopThread As Thread
@@ -37,7 +20,6 @@ Module Module1
     'Framerate
     Dim TimeSpan As Date
     Dim FPS As Double
-    Dim IdealFPS As Integer = 30
 
     'Engine
     Dim IsCont As Boolean = False
@@ -96,118 +78,107 @@ Module Module1
     Dim Items As New List(Of Item)
     Dim ItemsSprite As New List(Of Sprite)
 
-    Sub Main()
-        'CurrentState = GameStates.
-        PreInit()
-        Initialize()
-        'PostInit(GUI)
 
-        'Graphics thread
-        While window.IsOpen
+    'GUI elements
+    'MainGame
+    Dim LevelEditorButton As New SFMLButton
 
-            If Not IsPaused Then
+    Public Sub DoMainGame()
+        If Not IsPaused Then
 
-                'Execute Physics
-                GameLoop()
+            'Start calculating FPS
+            TimeSpan = Now
 
-                'Update Rendering
+            'Execute Physics
+            GameLoop()
 
-                'Update HUDs
-                HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Rotation.ToString)
-                HUDTopLeft.CharacterSize = 24
-                HUDTopLeft.Color = SFML.Graphics.Color.Black
-                HUDTopLeft.Position = New Vector2f(0, 0)
+            'Update Rendering
 
-                'Update Player position
-                Player.Position = New Vector2f(Pict.Left, Pict.Top)
-                Player.Rotation = 48 * CSng(Atan(YSpeed / XSpeed))
-                Player.Color = New SFML.Graphics.Color(128, 128, 128)
+            'Update HUDs
+            HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}{0}Current State: {9}{0}FPS: {10}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Rotation.ToString, CurrentState.Name.ToString, FPS.ToString)
+            HUDTopLeft.CharacterSize = 24
+            HUDTopLeft.Color = SFML.Graphics.Color.Black
+            HUDTopLeft.Position = New Vector2f(0, 0)
 
-                'Update CheckPoints
+            'Update Player position
+            Player.Position = New Vector2f(Pict.Left, Pict.Top)
+            Player.Rotation = 48 * CSng(Atan(YSpeed / XSpeed))
+            Player.Color = New SFML.Graphics.Color(128, 128, 128)
 
-                'Update Items
-                ItemsSprite.Clear()
-                ItemsSprite.Add(New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png")))
+            'Update CheckPoints
 
-                'Update Blocks
+            'Update Items
 
-                'Update Background objects
+            'Update Blocks
 
-                'Update Background
-                Background.Position = New Vector2f(-BackScroll / 10, 0)
+            'Update Background objects
 
-            End If
+            'Update Background
+            Background.Position = New Vector2f(-BackScroll / 10, 0)
 
-            'Clear window
-            window.Clear()
 
-            'Do events
-            window.DispatchEvents()
+        End If
 
-            'Draw everything
-            'Draw Background
-            window.Draw(Background)
+        'Draw everything
+        'Draw Background
+        Window.Draw(Background)
 
-            'Draw Background objects
-            'Draw Blocks
-            'Draw Items
-            window.Draw(ItemsSprite(0))
+        'Draw Background objects
+        'Draw Blocks
+        'Draw Items
 
-            'Draw Checkpoints
+        'Draw Checkpoints
 
-            'Draw player
-            window.Draw(Player)
+        'draw the GUI
+        MainGameGUI.Draw(window)
 
-            'Draw HUDs
-            window.Draw(HUDTopLeft)
+        'Draw player
+        window.Draw(Player)
 
-            window.Display()
+        'Draw HUDs
+        window.Draw(HUDTopLeft)
 
-            'Player = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"), New IntRect(Pict.Left, Pict.Top, 20, 20))
-        End While
+        'Finish calculating FPS
+        FPS = 1000 / (Now - TimeSpan).TotalMilliseconds
     End Sub
 
 #Region "Loading"
-    ''' <summary>
-    ''' Initializes the window and the elements
-    ''' </summary>
-    Public Sub PreInit()
-        'Console.WriteLine("Starting Sub Main")
+    Public Sub PostInitMainGame()
 
-        window = New RenderWindow(New VideoMode(800, 600), "Breeze")
-        Player = New Sprite(New Texture("C:\GameShardsSoftware\paperplane.png"))
-        'GUI.GlobalFont = New SFML.Graphics.Font("crash-a-like.ttf")
-
-        'Dim Texture As New Texture("C:\\GameShardsCore\")
-    End Sub
-
-    ''' <summary>
-    ''' Sets music and starting conditions
-    ''' </summary>
-    Public Sub Initialize()
-        'Do here the things to do when the application starts
-        WaMusic.Init(RdMusic)
-        WaMusic.Play()
-
-        window.SetFramerateLimit(60)
-
-        'Should load here all resources
         HUDTopLeft.Font = New SFML.Graphics.Font("crash-a-like.ttf")
+        HUDTopLeft.CharacterSize = 20
 
         'YLocation will be replaced by level's startpoint
+        Player = New Sprite(New Texture("C:\GameShardsSoftware\paperplane.png"))
         Pict.Location = New Point(XLoc, 30)
         Pict.Size = New Size(20, 20)
-
     End Sub
 
-    ''' <summary>
-    ''' Sets the GUI elements and gamestates
-    ''' </summary>
-    Public Sub PostInit()
-        Items.Add(New Light(SFML.Graphics.Color.Red, 1000, 1))
-        Items(0).Location = New Point(CInt(Player.Position.X), CInt(Player.Position.Y))
+    Sub GUILoadMainGame()
+        Console.WriteLine("Loading Main Game GUI...")
+        LevelEditorButton.TextAlign = ContentAlignment.MiddleLeft
+        LevelEditorButton.Text = "LevelEditor"
+        LevelEditorButton.ForeColor = Drawing.Color.Blue
+        LevelEditorButton.SFMLFont = New SFML.Graphics.Font("crash-a-like.ttf")
+        LevelEditorButton.SFMLFontSize = 48
+        LevelEditorButton.Toggleable = True
+        LevelEditorButton.ToggleChangesSprite = False
+        LevelEditorButton.ToggleChangesColor = True
+        LevelEditorButton.Location = New Point(0, CInt(Window.Size.Y - 50))
+        LevelEditorButton.Size = New Size(900, 50)
+        LevelEditorButton.AutoPadding = True
+        LevelEditorButton.ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
+        LevelEditorButton.ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
+        LevelEditorButton.SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
+        LevelEditorButton.SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+
+        MainGameGUI.Controls.Add(LevelEditorButton)
+        Console.WriteLine("Successfully Loaded ""LevelEditorButton""")
+        Console.WriteLine("Main GameGUI loaded successfully!")
     End Sub
 #End Region
+
+
 
     Public Sub GameLoop()
         'Do While IsExit = False
@@ -219,18 +190,6 @@ Module Module1
         Else
             'Start calculating framerate
             TimeSpan = Now
-
-            'If MusicIsMuted Then
-            '    WaMusic.Volume = 0
-            'Else
-            '    WaMusic.Volume = CSng(TrackBar1.Value / 100)
-            'End If
-
-            'If SoundIsMuted Then
-            '    WaSound.Volume = 0
-            'Else
-            '    WaSound.Volume = CSng(TrackBar2.Value / 100)
-            'End If
 
             'Do physics
             YSpeed += Gravity
@@ -246,16 +205,16 @@ Module Module1
             BackScroll += XSpeed / 25
             Pict.Top = CInt(Pict.Top + YSpeed)
 
-            If Pict.Top > window.Size.Y - Pict.Height Then
-                Pict.Top = CInt(window.Size.Y - Pict.Height)
+            If Pict.Top > Window.Size.Y - Pict.Height Then
+                Pict.Top = CInt(Window.Size.Y - Pict.Height)
                 YSpeed *= -1
             ElseIf Pict.Top < 0 Then
                 Pict.Top = 0
                 YSpeed *= -1
             End If
 
-            If Pict.Left > window.Size.X - Pict.Width Then
-                Pict.Left = CInt(window.Size.X - Pict.Width)
+            If Pict.Left > Window.Size.X - Pict.Width Then
+                Pict.Left = CInt(Window.Size.X - Pict.Width)
                 XSpeed *= -1
             ElseIf Pict.Left < 0 Then
                 Pict.Left = 0
@@ -273,17 +232,7 @@ Module Module1
                     End If
                 Next
             End If
-
-
-
-            'Finish calculatingf FPS
-            'If Not CheckBox1.Checked Then
-            '    Thread.Sleep(GBase.SmallestPositiveValueINT(CInt(1000 / IdealFPS - (Now - TimeSpan).TotalMilliseconds)))
-            'End If
-            'FPS = Round((1 / (Now - TimeSpan).TotalMilliseconds) * 1000, 2)
         End If
-
-        'Loop
     End Sub
 
     Public Sub LoadLevel(ByVal Path As String)
@@ -298,20 +247,8 @@ Module Module1
         End Try
     End Sub
 
+    Sub MainGameKeyDown(sender As Object, e As SFML.Window.KeyEventArgs)
 
-
-    Sub WindowClosed(ByVal sender As Object, ByVal e As EventArgs) Handles window.Closed
-        Application.Exit()
-        window.Close()
-        'Dim window = CType(sender, RenderWindow)
-    End Sub
-
-    Sub WindowClick(ByVal sender As Object, e As EventArgs) Handles window.MouseButtonPressed
-        IsPaused = (Not IsPaused)
-    End Sub
-
-    Sub WindowKeyDown(ByVal sender As Object, e As SFML.Window.KeyEventArgs) Handles window.KeyPressed
-        Console.WriteLine("Button pressed " & e.Code.ToString)
         Select Case True
             Case e.Code = Keyboard.Key.W Or e.Code = Keyboard.Key.Up
                 Gravity = 0
@@ -359,8 +296,7 @@ Module Module1
         End Select
     End Sub
 
-    Sub WindowKeyUp(ByVal sender As Object, e As SFML.Window.KeyEventArgs) Handles window.KeyReleased
-        Console.WriteLine("Button released " & e.Code.ToString)
+    Sub MainGameKeyUp(ByVal sender As Object, e As SFML.Window.KeyEventArgs)
 
         Select Case Env
             Case FlightEnvironment.Normal
@@ -380,4 +316,30 @@ Module Module1
         XAcceleration = 0
         YAcceleration = 0
     End Sub
+
+#Region "Handles"
+
+    Sub MainGameWindowClick(sender As Object, e As MouseButtonEventArgs)
+        For x = 0 To MainGameGUI.Controls.Count - 1
+            If TypeOf MainGameGUI.Controls(x) Is SFMLButton Then
+                Dim b As New SFMLButton
+                b = DirectCast(MainGameGUI.Controls(x), SFMLButton)
+                If GGeom.CheckIfRectangleIntersectsPoint(b.Bounds, New Point(e.X, e.Y)) Then
+                    MainGameButtonClick(b)
+                Else
+                    CurrentState = GameStates.MainGame
+                End If
+            End If
+        Next
+    End Sub
+
+    Sub MainGameButtonClick(ByVal sender As SFMLButton)
+        If sender Is LevelEditorButton Then
+            CurrentState = GameStates.LevelEditor
+        End If
+
+    End Sub
+
+
+#End Region
 End Module

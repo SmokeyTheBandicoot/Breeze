@@ -1,7 +1,6 @@
-﻿Public Class GameStates
+﻿Public Structure GameStates
 
     Private _Name As String
-    Private _SubStates As List(Of String)
 
     Public Property Name As String
         Get
@@ -12,43 +11,56 @@
         End Set
     End Property
 
-    Private Sub New(ByVal Name As String, SubStates As List(Of String))
+
+    Private Sub New(ByVal Name As String)
         _Name = Name
     End Sub
 
-    Public ReadOnly Property Loading() As GameStates
+    Public Shared ReadOnly Property Loading() As GameStates
         Get
-            Return New GameStates("Loading", {"PreInit", "Init", "PostInit"}.ToList)
+            Return New GameStates("Loading")
         End Get
     End Property
 
-    Public ReadOnly Property MainMenu() As GameStates
+    Public Shared ReadOnly Property MainMenu() As GameStates
         Get
-            Return New GameStates("MainMenu", {"SingleState"}.ToList)
+            Return New GameStates("MainMenu")
         End Get
     End Property
 
-    Public ReadOnly Property InGameOptions() As GameStates
+    Public Shared ReadOnly Property MainMenuOptions() As GameStates
         Get
-            Return New GameStates("InGameOptions", {"SingleState"}.ToList)
+            Return New GameStates("MainMenuOptions")
         End Get
     End Property
 
-    Public ReadOnly Property MainMenuOptions() As GameStates
+    Public Shared ReadOnly Property LevelEditor() As GameStates
         Get
-            Return New GameStates("MainMenuOptions", {"SingleState"}.ToList)
+            Return New GameStates("LevelEditor")
         End Get
     End Property
 
-    Public ReadOnly Property MainGame() As GameStates
+    Public Shared ReadOnly Property LevelSelect() As GameStates
         Get
-            Return New GameStates("MainGame", {"Running", "UnFocused", "Paused", "ExitPending"}.ToList)
+            Return New GameStates("LevelSelect")
         End Get
     End Property
 
-    Public ReadOnly Property Credits() As GameStates
+    Public Shared ReadOnly Property InGameOptions() As GameStates
         Get
-            Return New GameStates("Credits", {"SingleState"}.ToList)
+            Return New GameStates("InGameOptions")
         End Get
     End Property
-End Class
+
+    Public Shared ReadOnly Property MainGame() As GameStates
+        Get
+            Return New GameStates("MainGame")
+        End Get
+    End Property
+
+    Public Shared ReadOnly Property Credits() As GameStates
+        Get
+            Return New GameStates("Credits")
+        End Get
+    End Property
+End Structure
