@@ -7,6 +7,7 @@ Imports NAudio.Wave
 Imports System.Threading
 Imports System.Windows.Forms
 Imports GameShardsCoreSFML
+Imports System.IO
 
 Module MainBackbone
 
@@ -40,6 +41,11 @@ Module MainBackbone
 
     'Font
     Public GlobalFont As SFML.Graphics.Font = New SFML.Graphics.Font("crash-a-like.ttf")
+
+    'Load/Save level
+    Dim r As BinaryReader
+    Dim w As BinaryWriter
+    Dim l As Level
 
     Sub Main()
         'CurrentState = GameStates.
@@ -89,7 +95,7 @@ Module MainBackbone
     Public Sub PreInit()
 
         Console.WriteLine("Starting Pre-Initialization")
-        window = New RenderWindow(VideoMode.DesktopMode, "Breeze", Styles.None)
+        window = New RenderWindow(New VideoMode(1080, 720), "Breeze", Styles.None)
 
         window.SetFramerateLimit(60)
         Console.WriteLine("Created a new RenderWindow with MAXFPS set to 60")
@@ -153,7 +159,7 @@ Module MainBackbone
     Sub WindowMouseMove(sender As Object, e As MouseMoveEventArgs) Handles window.MouseMoved
         Select Case True
             Case CurrentState.Name.ToUpper = "MAINGAME"
-
+                MainGameMouseMoved(sender, e)
             Case CurrentState.Name.ToUpper = "LEVELEDITOR"
 
             Case CurrentState.Name.ToUpper = "MAINMENU"
@@ -163,4 +169,32 @@ Module MainBackbone
         End Select
     End Sub
 
+    Public Function LoadLevel(ByVal Path As String) As Level
+        l = New Level
+        'Format:
+        'Name|||Author|||Music|||Background||ScrollSpeed|||StartPosX||StartPosY|||Blocks||Block1ID|Block1Transparency|Block1Hardness|Block1Layer||Block2ID|Block2Transparency|Block2Hardness|Block2Layer||BlockN...|||Items||Item1ID|XSpeed|Yspeed|ItemType||Item2ID....|||Backgrounds||Background1ID||Background2ID|||
+        'NOTE: FinishPosX and FinishPosY are contained in an item. When player intersects one of those the level ends
+        Try
+
+            l.BackGround = New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
+            l.BackGround.HScroll = Background.HorizontalScrollMode.Repeated
+            l.BackGround.ScrollSpeedX = 10
+            l.Width = 20000
+
+            Return l
+        Catch ex As Exception
+
+        End Try
+    End Function
+
+    Public Sub SaveLevel(ByVal Path As String)
+        'Format:
+        'Name|||Author|||Music|||Background||ScrollSpeed|||StartPosX||StartPosY|||Blocks||Block1ID|Block1Transparency|Block1Hardness|Block1Layer||Block2ID|Block2Transparency|Block2Hardness|Block2Layer||BlockN...|||Items||Item1ID|XSpeed|Yspeed|ItemType||Item2ID....|||Backgrounds||Background1ID||Background2ID|||
+        'NOTE: FinishPosX and FinishPosY are contained in an item. When player intersects one of those the level ends
+        Try
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
 End Module

@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class BlocksForm
     Inherits System.Windows.Forms.Form
 
     'Form esegue l'override del metodo Dispose per pulire l'elenco dei componenti.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,32 +20,11 @@ Partial Class BlocksForm
     'NOTA: la procedura che segue è richiesta da Progettazione Windows Form
     'Può essere modificata in Progettazione Windows Form.  
     'Non modificarla mediante l'editor del codice.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
-        Me.TabPage3 = New System.Windows.Forms.TabPage()
-        Me.TabPage4 = New System.Windows.Forms.TabPage()
-        Me.TabPage5 = New System.Windows.Forms.TabPage()
-        Me.TabPage6 = New System.Windows.Forms.TabPage()
-        Me.TabPage7 = New System.Windows.Forms.TabPage()
-        Me.TabPage8 = New System.Windows.Forms.TabPage()
-        Me.TabPage9 = New System.Windows.Forms.TabPage()
-        Me.TabPage10 = New System.Windows.Forms.TabPage()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox3 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox4 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox5 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox6 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox7 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox9 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox10 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox11 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox12 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox13 = New System.Windows.Forms.PictureBox()
         Me.PictureBox14 = New System.Windows.Forms.PictureBox()
         Me.PictureBox15 = New System.Windows.Forms.PictureBox()
         Me.PictureBox16 = New System.Windows.Forms.PictureBox()
@@ -59,22 +38,16 @@ Partial Class BlocksForm
         Me.PictureBox24 = New System.Windows.Forms.PictureBox()
         Me.PictureBox25 = New System.Windows.Forms.PictureBox()
         Me.PictureBox26 = New System.Windows.Forms.PictureBox()
+        Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.TabPage5 = New System.Windows.Forms.TabPage()
+        Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.TabPage7 = New System.Windows.Forms.TabPage()
+        Me.TabPage8 = New System.Windows.Forms.TabPage()
+        Me.TabPage9 = New System.Windows.Forms.TabPage()
+        Me.TabPage10 = New System.Windows.Forms.TabPage()
         Me.TabControl1.SuspendLayout()
-        Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox16, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,19 +84,6 @@ Partial Class BlocksForm
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.PictureBox13)
-        Me.TabPage1.Controls.Add(Me.PictureBox10)
-        Me.TabPage1.Controls.Add(Me.PictureBox11)
-        Me.TabPage1.Controls.Add(Me.PictureBox12)
-        Me.TabPage1.Controls.Add(Me.PictureBox7)
-        Me.TabPage1.Controls.Add(Me.PictureBox8)
-        Me.TabPage1.Controls.Add(Me.PictureBox9)
-        Me.TabPage1.Controls.Add(Me.PictureBox4)
-        Me.TabPage1.Controls.Add(Me.PictureBox5)
-        Me.TabPage1.Controls.Add(Me.PictureBox6)
-        Me.TabPage1.Controls.Add(Me.PictureBox3)
-        Me.TabPage1.Controls.Add(Me.PictureBox2)
-        Me.TabPage1.Controls.Add(Me.PictureBox1)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
@@ -154,182 +114,6 @@ Partial Class BlocksForm
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Deep Cave"
         Me.TabPage2.UseVisualStyleBackColor = True
-        '
-        'TabPage3
-        '
-        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(784, 414)
-        Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Lava"
-        Me.TabPage3.UseVisualStyleBackColor = True
-        '
-        'TabPage4
-        '
-        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage4.Name = "TabPage4"
-        Me.TabPage4.Size = New System.Drawing.Size(784, 414)
-        Me.TabPage4.TabIndex = 3
-        Me.TabPage4.Text = "Grassy Cave"
-        Me.TabPage4.UseVisualStyleBackColor = True
-        '
-        'TabPage5
-        '
-        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage5.Name = "TabPage5"
-        Me.TabPage5.Size = New System.Drawing.Size(784, 414)
-        Me.TabPage5.TabIndex = 4
-        Me.TabPage5.Text = "SkyScapers"
-        Me.TabPage5.UseVisualStyleBackColor = True
-        '
-        'TabPage6
-        '
-        Me.TabPage6.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage6.Name = "TabPage6"
-        Me.TabPage6.Size = New System.Drawing.Size(784, 414)
-        Me.TabPage6.TabIndex = 5
-        Me.TabPage6.Text = "Plains"
-        Me.TabPage6.UseVisualStyleBackColor = True
-        '
-        'TabPage7
-        '
-        Me.TabPage7.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage7.Name = "TabPage7"
-        Me.TabPage7.Size = New System.Drawing.Size(784, 414)
-        Me.TabPage7.TabIndex = 6
-        Me.TabPage7.Text = "Jungle"
-        Me.TabPage7.UseVisualStyleBackColor = True
-        '
-        'TabPage8
-        '
-        Me.TabPage8.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage8.Name = "TabPage8"
-        Me.TabPage8.Size = New System.Drawing.Size(784, 414)
-        Me.TabPage8.TabIndex = 7
-        Me.TabPage8.Text = "Volcano"
-        Me.TabPage8.UseVisualStyleBackColor = True
-        '
-        'TabPage9
-        '
-        Me.TabPage9.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage9.Name = "TabPage9"
-        Me.TabPage9.Size = New System.Drawing.Size(784, 414)
-        Me.TabPage9.TabIndex = 8
-        Me.TabPage9.Text = "Underwater"
-        Me.TabPage9.UseVisualStyleBackColor = True
-        '
-        'TabPage10
-        '
-        Me.TabPage10.Location = New System.Drawing.Point(4, 22)
-        Me.TabPage10.Name = "TabPage10"
-        Me.TabPage10.Size = New System.Drawing.Size(784, 414)
-        Me.TabPage10.TabIndex = 9
-        Me.TabPage10.Text = "Moon/Space"
-        Me.TabPage10.UseVisualStyleBackColor = True
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Location = New System.Drawing.Point(8, 6)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox1.TabIndex = 0
-        Me.PictureBox1.TabStop = False
-        '
-        'PictureBox2
-        '
-        Me.PictureBox2.Location = New System.Drawing.Point(46, 6)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox2.TabIndex = 1
-        Me.PictureBox2.TabStop = False
-        '
-        'PictureBox3
-        '
-        Me.PictureBox3.Location = New System.Drawing.Point(84, 6)
-        Me.PictureBox3.Name = "PictureBox3"
-        Me.PictureBox3.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox3.TabIndex = 2
-        Me.PictureBox3.TabStop = False
-        '
-        'PictureBox4
-        '
-        Me.PictureBox4.Location = New System.Drawing.Point(84, 44)
-        Me.PictureBox4.Name = "PictureBox4"
-        Me.PictureBox4.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox4.TabIndex = 5
-        Me.PictureBox4.TabStop = False
-        '
-        'PictureBox5
-        '
-        Me.PictureBox5.Location = New System.Drawing.Point(46, 44)
-        Me.PictureBox5.Name = "PictureBox5"
-        Me.PictureBox5.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox5.TabIndex = 4
-        Me.PictureBox5.TabStop = False
-        '
-        'PictureBox6
-        '
-        Me.PictureBox6.Location = New System.Drawing.Point(8, 44)
-        Me.PictureBox6.Name = "PictureBox6"
-        Me.PictureBox6.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox6.TabIndex = 3
-        Me.PictureBox6.TabStop = False
-        '
-        'PictureBox7
-        '
-        Me.PictureBox7.Location = New System.Drawing.Point(84, 82)
-        Me.PictureBox7.Name = "PictureBox7"
-        Me.PictureBox7.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox7.TabIndex = 8
-        Me.PictureBox7.TabStop = False
-        '
-        'PictureBox8
-        '
-        Me.PictureBox8.Location = New System.Drawing.Point(46, 82)
-        Me.PictureBox8.Name = "PictureBox8"
-        Me.PictureBox8.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox8.TabIndex = 7
-        Me.PictureBox8.TabStop = False
-        '
-        'PictureBox9
-        '
-        Me.PictureBox9.Location = New System.Drawing.Point(8, 82)
-        Me.PictureBox9.Name = "PictureBox9"
-        Me.PictureBox9.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox9.TabIndex = 6
-        Me.PictureBox9.TabStop = False
-        '
-        'PictureBox10
-        '
-        Me.PictureBox10.Location = New System.Drawing.Point(154, 44)
-        Me.PictureBox10.Name = "PictureBox10"
-        Me.PictureBox10.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox10.TabIndex = 11
-        Me.PictureBox10.TabStop = False
-        '
-        'PictureBox11
-        '
-        Me.PictureBox11.Location = New System.Drawing.Point(192, 6)
-        Me.PictureBox11.Name = "PictureBox11"
-        Me.PictureBox11.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox11.TabIndex = 10
-        Me.PictureBox11.TabStop = False
-        '
-        'PictureBox12
-        '
-        Me.PictureBox12.Location = New System.Drawing.Point(154, 6)
-        Me.PictureBox12.Name = "PictureBox12"
-        Me.PictureBox12.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox12.TabIndex = 9
-        Me.PictureBox12.TabStop = False
-        '
-        'PictureBox13
-        '
-        Me.PictureBox13.Location = New System.Drawing.Point(192, 44)
-        Me.PictureBox13.Name = "PictureBox13"
-        Me.PictureBox13.Size = New System.Drawing.Size(32, 32)
-        Me.PictureBox13.TabIndex = 12
-        Me.PictureBox13.TabStop = False
         '
         'PictureBox14
         '
@@ -435,6 +219,78 @@ Partial Class BlocksForm
         Me.PictureBox26.TabIndex = 13
         Me.PictureBox26.TabStop = False
         '
+        'TabPage3
+        '
+        Me.TabPage3.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage3.Name = "TabPage3"
+        Me.TabPage3.Size = New System.Drawing.Size(575, 157)
+        Me.TabPage3.TabIndex = 2
+        Me.TabPage3.Text = "Lava"
+        Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'TabPage4
+        '
+        Me.TabPage4.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage4.Name = "TabPage4"
+        Me.TabPage4.Size = New System.Drawing.Size(575, 157)
+        Me.TabPage4.TabIndex = 3
+        Me.TabPage4.Text = "Grassy Cave"
+        Me.TabPage4.UseVisualStyleBackColor = True
+        '
+        'TabPage5
+        '
+        Me.TabPage5.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage5.Name = "TabPage5"
+        Me.TabPage5.Size = New System.Drawing.Size(575, 157)
+        Me.TabPage5.TabIndex = 4
+        Me.TabPage5.Text = "SkyScapers"
+        Me.TabPage5.UseVisualStyleBackColor = True
+        '
+        'TabPage6
+        '
+        Me.TabPage6.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage6.Name = "TabPage6"
+        Me.TabPage6.Size = New System.Drawing.Size(575, 157)
+        Me.TabPage6.TabIndex = 5
+        Me.TabPage6.Text = "Plains"
+        Me.TabPage6.UseVisualStyleBackColor = True
+        '
+        'TabPage7
+        '
+        Me.TabPage7.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage7.Name = "TabPage7"
+        Me.TabPage7.Size = New System.Drawing.Size(575, 157)
+        Me.TabPage7.TabIndex = 6
+        Me.TabPage7.Text = "Jungle"
+        Me.TabPage7.UseVisualStyleBackColor = True
+        '
+        'TabPage8
+        '
+        Me.TabPage8.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage8.Name = "TabPage8"
+        Me.TabPage8.Size = New System.Drawing.Size(575, 157)
+        Me.TabPage8.TabIndex = 7
+        Me.TabPage8.Text = "Volcano"
+        Me.TabPage8.UseVisualStyleBackColor = True
+        '
+        'TabPage9
+        '
+        Me.TabPage9.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage9.Name = "TabPage9"
+        Me.TabPage9.Size = New System.Drawing.Size(575, 157)
+        Me.TabPage9.TabIndex = 8
+        Me.TabPage9.Text = "Underwater"
+        Me.TabPage9.UseVisualStyleBackColor = True
+        '
+        'TabPage10
+        '
+        Me.TabPage10.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage10.Name = "TabPage10"
+        Me.TabPage10.Size = New System.Drawing.Size(575, 157)
+        Me.TabPage10.TabIndex = 9
+        Me.TabPage10.Text = "Moon/Space"
+        Me.TabPage10.UseVisualStyleBackColor = True
+        '
         'BlocksForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -444,21 +300,7 @@ Partial Class BlocksForm
         Me.Name = "BlocksForm"
         Me.Text = "BlocksForm"
         Me.TabControl1.ResumeLayout(False)
-        Me.TabPage1.ResumeLayout(False)
         Me.TabPage2.ResumeLayout(False)
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox16, System.ComponentModel.ISupportInitialize).EndInit()
@@ -478,19 +320,6 @@ Partial Class BlocksForm
 
     Friend WithEvents TabControl1 As Windows.Forms.TabControl
     Friend WithEvents TabPage1 As Windows.Forms.TabPage
-    Friend WithEvents PictureBox13 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox10 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox11 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox12 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox7 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox8 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox9 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox4 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox5 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox6 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox3 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox2 As Windows.Forms.PictureBox
-    Friend WithEvents PictureBox1 As Windows.Forms.PictureBox
     Friend WithEvents TabPage2 As Windows.Forms.TabPage
     Friend WithEvents PictureBox14 As Windows.Forms.PictureBox
     Friend WithEvents PictureBox15 As Windows.Forms.PictureBox

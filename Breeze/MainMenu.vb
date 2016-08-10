@@ -13,7 +13,7 @@ Module MainMenu
     Public CareerSelected As Boolean = False
 
     'Background
-    Dim Background As New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif"))
+    Dim Background As New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
 
     'GUI location
     Dim UnitX As Integer
@@ -43,7 +43,7 @@ Module MainMenu
 
     Sub DoMainMenu()
 
-        window.Draw(Background)
+        window.Draw(Background.BGImage)
         MainMenuGUI.Draw(window)
         If CareerSelected Then
             MainMenuNewLoadCancelGUI.Draw(window)
@@ -55,7 +55,7 @@ Module MainMenu
         UnitX = CInt(window.Size.X / 3.5)
         UnitY = CInt(window.Size.Y / 80)
 
-        Background.Scale = New Vector2f(CSng(window.Size.X / Background.Texture.Size.X), CSng(window.Size.Y / Background.Texture.Size.Y))
+        Background.BGImage.Scale = New Vector2f(CSng(window.Size.X / Background.BGImage.Texture.Size.X), CSng(window.Size.Y / Background.BGImage.Texture.Size.Y))
     End Sub
 
     Sub GUILoadMainMenu()
@@ -272,7 +272,8 @@ Module MainMenu
                             window.Close()
                         Case "CAREER"
                             CareerSelected = True
-
+                        Case "LEVEL EDITOR"
+                            CurrentState = GameStates.LevelEditor
                         Case ""
                     End Select
 

@@ -62,7 +62,7 @@ Module MainGame
     Dim BackScroll As Single = 0
 
     'Level
-    Dim Blocks(,) As Block
+    Dim level As New Level
 
     'GamePlay
     Dim Score As Long = 0
@@ -73,15 +73,13 @@ Module MainGame
     'Graphic Elements
     Dim Font As SFML.Graphics.Font
     Dim Player As New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"))
-    Dim Background As New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif"))
     Dim HUDTopLeft As New Text
-    Dim Items As New List(Of Item)
-    Dim ItemsSprite As New List(Of Sprite)
-
+    'Dim Background As New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
 
     'GUI elements
     'MainGame
-    Dim LevelEditorButton As New SFMLButton
+    Dim LevelEditorBTN As New SFMLButton
+    Dim CloseBTN As New SFMLButton
 
     Public Sub DoMainGame()
         If Not IsPaused Then
@@ -95,7 +93,7 @@ Module MainGame
             'Update Rendering
 
             'Update HUDs
-            HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}{0}Current State: {9}{0}FPS: {10}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Rotation.ToString, CurrentState.Name.ToString, FPS.ToString)
+            HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}{0}Current State: {9}{0}Backscroll: {10}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Rotation.ToString, CurrentState.Name.ToString, BackScroll.ToString)
             HUDTopLeft.CharacterSize = 24
             HUDTopLeft.Color = SFML.Graphics.Color.Black
             HUDTopLeft.Position = New Vector2f(0, 0)
@@ -114,14 +112,43 @@ Module MainGame
             'Update Background objects
 
             'Update Background
-            Background.Position = New Vector2f(-BackScroll / 10, 0)
+            Select Case level.BackGround.HScroll
+                Case Background.HorizontalScrollMode.Fixed
+                Case Background.HorizontalScrollMode.Repeated
+                    level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X - (XSpeed * Friction / level.BackGround.ScrollSpeedX), 0)
+                    If level.BackGround.BGImage.Position.X + level.BackGround.BGImage.Texture.Size.X < 0 Then
+                        level.BackGround.BGImage.Position = New Vector2f(0, level.BackGround.BGImage.Position.Y)
+                    End If
+                Case Background.HorizontalScrollMode.Stretched
+
+            End Select
+
 
 
         End If
 
         'Draw everything
         'Draw Background
-        Window.Draw(Background)
+        Select Case level.BackGround.HScroll
+            Case Background.HorizontalScrollMode.Fixed
+            Case Background.HorizontalScrollMode.Repeated
+                'If Background.Right < window.Size.X Then
+                '    For x = 0 To Background.GetHowManyRepeated(window,level)
+                '        Background.BGImage.Position = New Vector2f(x * Background.BGImage.Texture.Size.X - BackScroll, Background.BGImage.Position.Y)
+                window.Draw(level.BackGround.BGImage)
+                level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X + level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
+                window.Draw(level.BackGround.BGImage)
+                level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X + level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
+                window.Draw(level.BackGround.BGImage)
+                level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X - 2 * level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
+                'Next
+
+                'End If
+            Case Background.HorizontalScrollMode.Stretched
+
+        End Select
+
+        'window.Draw(Background.BGImage)
 
         'Draw Background objects
         'Draw Blocks
@@ -145,6 +172,7 @@ Module MainGame
 #Region "Loading"
     Public Sub PostInitMainGame()
 
+        'Configure HUD
         HUDTopLeft.Font = New SFML.Graphics.Font("crash-a-like.ttf")
         HUDTopLeft.CharacterSize = 20
 
@@ -152,27 +180,53 @@ Module MainGame
         Player = New Sprite(New Texture("C:\GameShardsSoftware\paperplane.png"))
         Pict.Location = New Point(XLoc, 30)
         Pict.Size = New Size(20, 20)
+
+        'Load the correct level - should go in tandem with MainMenu
+        level = LoadLevel("No path yet")
+
     End Sub
 
     Sub GUILoadMainGame()
         Console.WriteLine("Loading Main Game GUI...")
-        LevelEditorButton.TextAlign = ContentAlignment.MiddleLeft
-        LevelEditorButton.Text = "LevelEditor"
-        LevelEditorButton.ForeColor = Drawing.Color.Blue
-        LevelEditorButton.SFMLFont = New SFML.Graphics.Font("crash-a-like.ttf")
-        LevelEditorButton.SFMLFontSize = 48
-        LevelEditorButton.Toggleable = True
-        LevelEditorButton.ToggleChangesSprite = False
-        LevelEditorButton.ToggleChangesColor = True
-        LevelEditorButton.Location = New Point(0, CInt(Window.Size.Y - 50))
-        LevelEditorButton.Size = New Size(900, 50)
-        LevelEditorButton.AutoPadding = True
-        LevelEditorButton.ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
-        LevelEditorButton.ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-        LevelEditorButton.SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-        LevelEditorButton.SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+        With LevelEditorBTN
+            .TextAlign = ContentAlignment.MiddleLeft
+            .Text = "LevelEditor"
+            .ForeColor = Drawing.Color.Blue
+            .SFMLFont = New SFML.Graphics.Font("crash-a-like.ttf")
+            .SFMLFontSize = 48
+            .Toggleable = True
+            .ToggleChangesSprite = False
+            .ToggleChangesColor = True
+            .Location = New Point(0, CInt(window.Size.Y - 50))
+            .Size = New Size(900, 50)
+            .AutoPadding = True
+            .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
+            .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
+            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
+            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
 
-        MainGameGUI.Controls.Add(LevelEditorButton)
+            MainGameGUI.Controls.Add(LevelEditorBTN)
+        End With
+
+        With CloseBTN
+            .TextAlign = ContentAlignment.MiddleCenter
+            .Text = "X"
+            .ForeColor = Drawing.Color.Black
+            .SFMLFont = New SFML.Graphics.Font("crash-a-like.ttf")
+            .SFMLFontSize = 48
+            .Toggleable = True
+            .ToggleChangesSprite = False
+            .ToggleChangesColor = True
+            .Location = New Point(CInt(window.Size.X - 50), 0)
+            .Size = New Size(50, 50)
+            .AutoPadding = True
+            .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
+            .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
+            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
+            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+
+            MainGameGUI.Controls.Add(CloseBTN)
+        End With
         Console.WriteLine("Successfully Loaded ""LevelEditorButton""")
         Console.WriteLine("Main GameGUI loaded successfully!")
     End Sub
@@ -205,16 +259,16 @@ Module MainGame
             BackScroll += XSpeed / 25
             Pict.Top = CInt(Pict.Top + YSpeed)
 
-            If Pict.Top > Window.Size.Y - Pict.Height Then
-                Pict.Top = CInt(Window.Size.Y - Pict.Height)
+            If Pict.Top > window.Size.Y - Pict.Height Then
+                Pict.Top = CInt(window.Size.Y - Pict.Height)
                 YSpeed *= -1
             ElseIf Pict.Top < 0 Then
                 Pict.Top = 0
                 YSpeed *= -1
             End If
 
-            If Pict.Left > Window.Size.X - Pict.Width Then
-                Pict.Left = CInt(Window.Size.X - Pict.Width)
+            If Pict.Left > window.Size.X - Pict.Width Then
+                Pict.Left = CInt(window.Size.X - Pict.Width)
                 XSpeed *= -1
             ElseIf Pict.Left < 0 Then
                 Pict.Left = 0
@@ -222,30 +276,20 @@ Module MainGame
             End If
 
             'Do light calculations
-            If Items.Count > 0 Then
-                For x = 0 To Items.Count - 1
-                    If Items(x).Item = Item.ItemType.Light Then
-                        Dim r As New IntRect(CInt(DirectCast(Items(x), Light).Location.X), CInt(DirectCast(Items(x), Light).Location.Y), CInt(DirectCast(Items(x), Light).AoE), CInt(DirectCast(Items(x), Light).AoE))
-                        If Player.TextureRect.Intersects(r) Then
-                            Player.Color = (DirectCast(Items(x), Light).Color)
-                        End If
-                    End If
-                Next
-            End If
+            'If Items.Count > 0 Then
+            '    For x = 0 To Items.Count - 1
+            '        If Items(x).Item = Item.ItemType.Light Then
+            '            Dim r As New IntRect(CInt(DirectCast(Items(x), Light).Location.X), CInt(DirectCast(Items(x), Light).Location.Y), CInt(DirectCast(Items(x), Light).AoE), CInt(DirectCast(Items(x), Light).AoE))
+            '            If Player.TextureRect.Intersects(r) Then
+            '                Player.Color = (DirectCast(Items(x), Light).Color)
+            '            End If
+            '        End If
+            '    Next
+            'End If
         End If
     End Sub
 
-    Public Sub LoadLevel(ByVal Path As String)
-
-        'Format:
-        'Name|||Author|||Music|||Background||ScrollSpeed|||StartPosX||StartPosY|||Blocks||Block1ID|Block1Transparency|Block1Hardness|Block1Layer||Block2ID|Block2Transparency|Block2Hardness|Block2Layer||BlockN...|||Items||Item1ID|XSpeed|Yspeed|ItemType||Item2ID....|||Backgrounds||Background1ID||Background2ID|||
-        'NOTE: FinishPosX and FinishPosY are contained in an item. When player intersects one of those the level ends
-        Try
-
-        Catch ex As Exception
-
-        End Try
-    End Sub
+#Region "Handles"
 
     Sub MainGameKeyDown(sender As Object, e As SFML.Window.KeyEventArgs)
 
@@ -317,29 +361,37 @@ Module MainGame
         YAcceleration = 0
     End Sub
 
-#Region "Handles"
-
-    Sub MainGameWindowClick(sender As Object, e As MouseButtonEventArgs)
+    Sub MainGameMouseMoved(sender As Object, e As MouseMoveEventArgs)
         For x = 0 To MainGameGUI.Controls.Count - 1
             If TypeOf MainGameGUI.Controls(x) Is SFMLButton Then
-                Dim b As New SFMLButton
-                b = DirectCast(MainGameGUI.Controls(x), SFMLButton)
-                If GGeom.CheckIfRectangleIntersectsPoint(b.Bounds, New Point(e.X, e.Y)) Then
-                    MainGameButtonClick(b)
+                If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(MainGameGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
+                    DirectCast(MainGameGUI.Controls(x), SFMLButton).IsToggled = True
                 Else
-                    CurrentState = GameStates.MainGame
+                    DirectCast(MainGameGUI.Controls(x), SFMLButton).IsToggled = False
                 End If
             End If
         Next
     End Sub
 
-    Sub MainGameButtonClick(ByVal sender As SFMLButton)
-        If sender Is LevelEditorButton Then
-            CurrentState = GameStates.LevelEditor
-        End If
 
+    Sub MainGameWindowClick(sender As Object, e As MouseButtonEventArgs)
+        For x = 0 To MainGameGUI.Controls.Count - 1
+            If TypeOf MainGameGUI.Controls(x) Is SFMLButton Then
+                If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(MainGameGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
+                    CareerSelected = False
+                    Select Case DirectCast(MainGameGUI.Controls(x), SFMLButton).Text.ToUpper
+                        Case "LEVELEDITOR"
+                            CurrentState = GameStates.LevelEditor
+                        Case "X"
+                            CurrentState = GameStates.MainMenu
+
+                        Case ""
+                    End Select
+
+                End If
+            End If
+        Next
     End Sub
-
 
 #End Region
 End Module

@@ -14,7 +14,7 @@ Module LevelSelect
     Dim BTNY As Byte = 6
 
     'Background
-    Dim Background As New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif"))
+    Dim Background As New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
 
     'GUI
     Dim LevelSelectGUI As New GUI
@@ -29,14 +29,14 @@ Module LevelSelect
     Dim SqSize As Size
 
     Sub DoLevelSelect()
-        window.Draw(Background)
+        window.Draw(Background.BGImage)
         LevelSelectGUI.Draw(window)
     End Sub
 
     Sub PostInitLevelSelect()
         SqSize = New Size(50 * BTNX + 10 * BTNX, 50 * BTNY + 10 * BTNY)
 
-        Background.Scale = New Vector2f(CSng(window.Size.X / Background.Texture.Size.X), CSng(window.Size.Y / Background.Texture.Size.Y))
+        Background.BGImage.Scale = New Vector2f(CSng(window.Size.X / Background.BGImage.Texture.Size.X), CSng(window.Size.Y / Background.BGImage.Texture.Size.Y))
     End Sub
 
     Sub GUILoadLevelSelect()

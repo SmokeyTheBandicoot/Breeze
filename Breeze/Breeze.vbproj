@@ -120,6 +120,15 @@
     <Compile Include="Background.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="BackgroundObject.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BGForm.Designer.vb">
+      <DependentUpon>BGForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BGForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Block.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -136,6 +145,7 @@
     <Compile Include="Item.vb">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Level.vb" />
     <Compile Include="LevelEditor.vb" />
     <Compile Include="LevelSelect.vb" />
     <Compile Include="Ligth.vb">
@@ -161,6 +171,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BGForm.resx">
+      <DependentUpon>BGForm.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BlocksForm.resx">
       <DependentUpon>BlocksForm.vb</DependentUpon>
     </EmbeddedResource>
