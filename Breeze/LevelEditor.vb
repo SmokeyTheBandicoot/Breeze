@@ -30,10 +30,15 @@ Module LevelEditor
     'GUI
     Dim BlockBTN As New SFMLButton
     Dim BGBTN As New SFMLButton
+    Dim NameTB As New SFMLTextbox
+    Dim KB As SFMLKeyboard
 
     'Windows
     Dim BlocksForm As New BlocksForm
     Dim BGForm As New BGForm
+
+    'Textbox Handling
+    Dim GTUtils As New TextboxUtils
 
     Sub DoEditor()
 
@@ -128,6 +133,27 @@ Module LevelEditor
             .IDStr = "BGBTN"
             EditorGUI.Controls.Add(BGBTN)
         End With
+
+        With NameTB
+            .TextAlign = HorizontalAlignment.Left
+            .Text = "hello"
+            .ForeColor = Drawing.Color.White
+            .SFMLFont = New SFML.Graphics.Font("crash-a-like.ttf")
+            .SFMLFontSize = 32
+            .Location = New Point(400, 150)
+            .Size = New Size(300, 30)
+            .IDStr = "BGBTN"
+            EditorGUI.Controls.Add(NameTB)
+        End With
+
+        KB = New SFMLKeyboard(New Vector2f(0, 700), New Vector2f(522, 172))
+        With KB
+            .KeyPadding = 3
+            .ForeColor = Drawing.Color.Black
+            '.SizeWH = New Size(522, 172)
+            '.Location = New Point(0, 700)
+            EditorGUI.Controls.Add(KB)
+        End With
     End Sub
 
 
@@ -148,12 +174,23 @@ Module LevelEditor
                             BGForm.focus
                     End Select
                 End If
+            ElseIf TypeOf EditorGUI.Controls(x) Is sfmltextbox Then
+                DirectCast(EditorGUI.Controls(x), SFMLTextbox).IsActive = False
+                Dim t As New SFMLTextbox
+                t = DirectCast(EditorGUI.Controls(x), SFMLTextbox)
+                If GGeom.CheckIfRectangleIntersectsPoint(t.Bounds, New Point(e.X, e.Y)) Then
+                    DirectCast(EditorGUI.Controls(x), SFMLTextbox).IsActive = True
+                End If
             End If
         Next
     End Sub
 
     Sub EditorKeyDown(sender As Object, e As SFML.Window.KeyEventArgs)
-
+        For x = 0 To EditorGUI.Controls.Count - 1
+            If TypeOf EditorGUI.Controls(x) Is SFMLTextbox Then
+                GTUtils.UpdateTextboxes(EditorGUI, e.Code.ToString)
+            End If
+        Next
     End Sub
 
     Sub EditorKeyup(sender As Object, e As SFML.Window.KeyEventArgs)

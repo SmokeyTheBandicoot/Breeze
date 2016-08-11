@@ -13,6 +13,7 @@ Module MainBackbone
 
     'Main Window
     Public WithEvents window As RenderWindow
+    Public WithEvents lv As New LevelEditorForm
 
     'GUIs
     Public MainGameGUI As New GUI
@@ -47,10 +48,15 @@ Module MainBackbone
     Dim w As BinaryWriter
     Dim l As Level
 
+    'KeyBoard
+    Dim KeyboardGUI As New GUI
+    Dim Keys As New List(Of SFMLButton)
+
     Sub Main()
         'CurrentState = GameStates.
         PreInit()
         Initialize()
+        PostInit()
         PostInitMainMenu()
         GUILoadMainMenu()
         PostInitMainGame()
@@ -69,7 +75,9 @@ Module MainBackbone
             Window.DispatchEvents()
 
             'Clear window
-            Window.Clear()
+            window.Clear()
+
+            Application.DoEvents()
 
             'Do the things to do
             If CurrentState.Name.ToUpper = "MAINGAME" Then
@@ -95,12 +103,14 @@ Module MainBackbone
     Public Sub PreInit()
 
         Console.WriteLine("Starting Pre-Initialization")
-        window = New RenderWindow(New VideoMode(1080, 720), "Breeze", Styles.None)
+        'window = New RenderWindow(New VideoMode(1080, 720), "Breeze", Styles.None)
+        window = New RenderWindow(lv.Panel1.Handle)
+        lv.Show()
 
         window.SetFramerateLimit(60)
         Console.WriteLine("Created a new RenderWindow with MAXFPS set to 60")
-        window.RequestFocus()
-        window.SetActive()
+        'window.RequestFocus()
+        'window.SetActive()
         Console.WriteLine("Focus Request Sent")
         Console.WriteLine("Pre-Initialization finished!")
     End Sub
@@ -111,6 +121,10 @@ Module MainBackbone
         WaMusic.Play()
 
         CurrentState = GameStates.MainMenu
+
+    End Sub
+
+    Public Sub PostInit()
 
     End Sub
 
@@ -140,6 +154,7 @@ Module MainBackbone
             Case CurrentState.Name.ToUpper = "LEVELEDITOR"
                 EditorKeyDown(sender, e)
             Case CurrentState.Name.ToUpper = "MAINMENU"
+
             Case CurrentState.Name.ToUpper = "LEVELSELECT"
 
         End Select
