@@ -42,6 +42,7 @@ Module MainBackbone
 
     'Font
     Public GlobalFont As SFML.Graphics.Font = New SFML.Graphics.Font("crash-a-like.ttf")
+    Public KeyFont As New SFML.Graphics.Font("arial.ttf")
 
     'Load/Save level
     Dim r As BinaryReader
@@ -176,7 +177,7 @@ Module MainBackbone
             Case CurrentState.Name.ToUpper = "MAINGAME"
                 MainGameMouseMoved(sender, e)
             Case CurrentState.Name.ToUpper = "LEVELEDITOR"
-
+                LevelEditorMouseMoved(sender, e)
             Case CurrentState.Name.ToUpper = "MAINMENU"
                 MainMenuMouseMoved(sender, e)
             Case CurrentState.Name.ToUpper = "LEVELSELECT"

@@ -146,10 +146,12 @@ Module LevelEditor
             EditorGUI.Controls.Add(NameTB)
         End With
 
-        KB = New SFMLKeyboard(New Vector2f(0, 700), New Vector2f(522, 172))
+        KB = New SFMLKeyboard(New Vector2f(0, 650), New Vector2f(522, 172))
         With KB
             .KeyPadding = 3
             .ForeColor = Drawing.Color.Black
+            .Font = New Drawing.Font("arial", 15)
+            '.SFMLFont = New SFML.Graphics.Font("arial.ttf")
             '.SizeWH = New Size(522, 172)
             '.Location = New Point(0, 700)
             EditorGUI.Controls.Add(KB)
@@ -181,6 +183,14 @@ Module LevelEditor
                 If GGeom.CheckIfRectangleIntersectsPoint(t.Bounds, New Point(e.X, e.Y)) Then
                     DirectCast(EditorGUI.Controls(x), SFMLTextbox).IsActive = True
                 End If
+            End If
+        Next
+    End Sub
+
+    Sub LevelEditorMouseMoved(sender As Object, e As MouseMoveEventArgs)
+        For x = 0 To EditorGUI.Controls.Count - 1
+            If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
+                DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyToggled(New Point(e.X, e.Y))
             End If
         Next
     End Sub
