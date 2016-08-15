@@ -199,7 +199,7 @@ Module MainGame
             .ToggleChangesColor = True
             .Location = New Point(0, CInt(window.Size.Y - 50))
             .Size = New Size(900, 50)
-            .AutoPadding = True
+            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
@@ -219,7 +219,7 @@ Module MainGame
             .ToggleChangesColor = True
             .Location = New Point(CInt(window.Size.X - 50), 0)
             .Size = New Size(50, 50)
-            .AutoPadding = True
+            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))

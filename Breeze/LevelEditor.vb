@@ -28,17 +28,15 @@ Module LevelEditor
     Dim GridOffSetY As Integer = 6
 
     'GUI
-    Dim BlockBTN As New SFMLButton
-    Dim BGBTN As New SFMLButton
+    'Dim BlockBTN As New SFMLButton
+    'Dim BGBTN As New SFMLButton
+
     Dim NameTB As New SFMLTextbox
-    Dim KB As SFMLKeyboard
+    Dim KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"))
 
     'Windows
     Dim BlocksForm As New BlocksForm
     Dim BGForm As New BGForm
-
-    'Textbox Handling
-    Dim GTUtils As New TextboxUtils
 
     Sub DoEditor()
 
@@ -94,66 +92,31 @@ Module LevelEditor
     End Sub
 
     Public Sub GUILoadLevelEditor()
-        With BlockBTN
-            .TextAlign = ContentAlignment.MiddleCenter
-            .Text = "Blocks"
-            .ForeColor = Drawing.Color.Black
-            .SFMLFont = New SFML.Graphics.Font("crash-a-like.ttf")
-            .SFMLFontSize = 32
-            .Toggleable = True
-            .ToggleChangesSprite = False
-            .ToggleChangesColor = True
-            .Location = New Point(0, YBlocks * BlockSize + 6)
-            .Size = New Size(150, 50)
-            .AutoPadding = True
-            .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
-            .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\BTN1.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\BTN1.png"))
-            .IDStr = "BlockBTN"
-            EditorGUI.Controls.Add(BlockBTN)
-        End With
-
-        With BGBTN
-            .TextAlign = ContentAlignment.MiddleCenter
-            .Text = "Backgrounds"
-            .ForeColor = Drawing.Color.Black
-            .SFMLFont = New SFML.Graphics.Font("crash-a-like.ttf")
-            .SFMLFontSize = 32
-            .Toggleable = True
-            .ToggleChangesSprite = False
-            .ToggleChangesColor = True
-            .Location = New Point(156, YBlocks * BlockSize + 6)
-            .Size = New Size(150, 50)
-            .AutoPadding = True
-            .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
-            .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\BTN1.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\BTN1.png"))
-            .IDStr = "BGBTN"
-            EditorGUI.Controls.Add(BGBTN)
-        End With
 
         With NameTB
             .TextAlign = HorizontalAlignment.Left
             .Text = "hello"
             .ForeColor = Drawing.Color.White
-            .SFMLFont = New SFML.Graphics.Font("crash-a-like.ttf")
+            .SFMLFont = New SFML.Graphics.Font("arial.ttf")
             .SFMLFontSize = 32
             .Location = New Point(400, 150)
             .Size = New Size(300, 30)
             .IDStr = "BGBTN"
+            .MaxLength = 10
             EditorGUI.Controls.Add(NameTB)
         End With
 
-        KB = New SFMLKeyboard(New Vector2f(0, 650), New Vector2f(522, 172))
+        'KB = New SFMLKeyboard(New Vector2f(0, 650), New Vector2f(522, 172))
         With KB
-            .KeyPadding = 3
+            '.KeyPadding = 3
+            .SetKeys(New Vector2f(0, 660), New Vector2f(522, 172), 0, .SFMLFont)
             .ForeColor = Drawing.Color.Black
             .Font = New Drawing.Font("arial", 15)
             '.SFMLFont = New SFML.Graphics.Font("arial.ttf")
             '.SizeWH = New Size(522, 172)
             '.Location = New Point(0, 700)
+            NameTB.BoundKeyboard = KB
+            .BoundToTextbox = True
             EditorGUI.Controls.Add(KB)
         End With
     End Sub
@@ -163,6 +126,7 @@ Module LevelEditor
 #Region "Handles"
     Sub EditorWindowClick(sender As Object, e As MouseButtonEventArgs)
         For x = 0 To EditorGUI.Controls.Count - 1
+
             If TypeOf EditorGUI.Controls(x) Is SFMLButton Then
                 Dim b As New SFMLButton
                 b = DirectCast(EditorGUI.Controls(x), SFMLButton)
@@ -172,17 +136,22 @@ Module LevelEditor
                             BlocksForm.Show()
                             BlocksForm.Focus()
                         Case "BGBTN"
-                            BGForm.show
-                            BGForm.focus
+                            BGForm.Show()
+                            BGForm.Focus()
                     End Select
                 End If
-            ElseIf TypeOf EditorGUI.Controls(x) Is sfmltextbox Then
-                DirectCast(EditorGUI.Controls(x), SFMLTextbox).IsActive = False
-                Dim t As New SFMLTextbox
-                t = DirectCast(EditorGUI.Controls(x), SFMLTextbox)
-                If GGeom.CheckIfRectangleIntersectsPoint(t.Bounds, New Point(e.X, e.Y)) Then
-                    DirectCast(EditorGUI.Controls(x), SFMLTextbox).IsActive = True
-                End If
+
+            ElseIf TypeOf EditorGUI.Controls(x) Is SFMLTextbox Then
+                DirectCast(EditorGUI.Controls(x), SFMLTextbox).SetActive(New Point(e.X, e.Y))
+
+            ElseIf TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
+                DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
+                'Dim k As New SFMLKeyboard(DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SFMLFont)
+                'k = DirectCast(EditorGUI.Controls(x), SFMLKeyboard)
+
+                'If GGeom.CheckIfRectangleIntersectsPoint(k.Bounds, New Point(e.X, e.Y)) Then
+                '    k.SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
+                'End If
             End If
         Next
     End Sub
@@ -198,7 +167,7 @@ Module LevelEditor
     Sub EditorKeyDown(sender As Object, e As SFML.Window.KeyEventArgs)
         For x = 0 To EditorGUI.Controls.Count - 1
             If TypeOf EditorGUI.Controls(x) Is SFMLTextbox Then
-                GTUtils.UpdateTextboxes(EditorGUI, e.Code.ToString)
+                TextboxUtils.UpdateTextboxes(EditorGUI, e.Code.ToString)
             End If
         Next
     End Sub

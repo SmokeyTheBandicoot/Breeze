@@ -56,7 +56,7 @@ Module LevelSelect
                     .ToggleChangesColor = True
                     .Size = New Size(50, 50)
                     .Location = New Point(CInt(window.Size.X \ 2 - SqSize.Width \ 2 + 50 * x + 10 * x), CInt(window.Size.Y - 200 - SqSize.Height + 50 * y + 10 * y))
-                    .AutoPadding = True
+                    '.AutoPadding = True
                     .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
                     .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
                     .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
@@ -78,7 +78,7 @@ Module LevelSelect
             .ToggleChangesColor = True
             .Size = New Size(110, 50)
             .Location = New Point(CInt(window.Size.X \ 2 - SqSize.Width \ 2), CInt(window.Size.Y - 260 - SqSize.Height))
-            .AutoPadding = True
+            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
@@ -98,7 +98,7 @@ Module LevelSelect
             .ToggleChangesColor = True
             .Size = New Size(290, 50)
             .Location = New Point(CInt(window.Size.X \ 2 - SqSize.Width \ 2 + 120), CInt(window.Size.Y - 260 - SqSize.Height))
-            .AutoPadding = True
+            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
@@ -118,7 +118,7 @@ Module LevelSelect
             .ToggleChangesColor = True
             .Size = New Size(410, 50)
             .Location = New Point(CInt(window.Size.X \ 2 - SqSize.Width \ 2), CInt(window.Size.Y - 140))
-            .AutoPadding = True
+            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
