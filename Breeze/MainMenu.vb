@@ -65,20 +65,17 @@ Module MainMenu
             .Text = "Career"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 30 * UnitY)
-            '.Location = New Point(.Location.X, .Location.Y)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
-            .TextOffset = New Vector2f(0, - .SFMLFontSize / 2)
+            .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(CareerBTN)
         End With
 
@@ -87,18 +84,17 @@ Module MainMenu
             .Text = "Level Editor"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 36 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(LevelEditorBTN)
         End With
 
@@ -107,18 +103,17 @@ Module MainMenu
             .Text = "Free Play"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 42 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(FreePlayBTN)
         End With
 
@@ -127,18 +122,17 @@ Module MainMenu
             .Text = "Time Trials"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 48 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(TimeTrialBTN)
         End With
 
@@ -147,18 +141,17 @@ Module MainMenu
             .Text = "Arcade"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 54 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(ArcadeBTN)
         End With
 
@@ -167,18 +160,17 @@ Module MainMenu
             .Text = "Options"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 60 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(OptionsBTN)
         End With
 
@@ -187,18 +179,17 @@ Module MainMenu
             .Text = "Credits"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont  'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 66 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(CreditsBTN)
         End With
 
@@ -207,18 +198,17 @@ Module MainMenu
             .Text = "Quit"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 72 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(ExitBTN)
         End With
 
@@ -227,18 +217,17 @@ Module MainMenu
             .Text = "New"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX \ 2, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 + CareerBTN.Size.Width \ 2 + UnitX \ 30), 30 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuNewLoadCancelGUI.Controls.Add(NewBTN)
         End With
 
@@ -247,18 +236,17 @@ Module MainMenu
             .Text = "Load"
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
-            .SFMLFont = KeyFont 'New SFML.Graphics.Font("crash-a-like.ttf")
-            .Font = New Drawing.Font("crash-a-like", .SFMLFontSize)
+            .SFMLFont = GlobalFont
             .Toggleable = True
             .ToggleChangesSprite = False
             .ToggleChangesColor = True
             .Size = New Size(UnitX \ 2, 5 * UnitY)
             .Location = New Point(CInt(window.Size.X \ 2 + CareerBTN.Size.Width \ 2 + UnitX \ 30), 36 * UnitY)
-            '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
             .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
             .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .TextOffset = New Vector2f(0, -12)
             MainMenuNewLoadCancelGUI.Controls.Add(LoadBTN)
         End With
         Console.WriteLine("Loaded Main Menu GUI!")

@@ -32,6 +32,7 @@ Module LevelEditor
     'Dim BGBTN As New SFMLButton
 
     Dim NameTB As New SFMLTextbox
+    Dim WithEvents FakeCHK As New SFMLCheckbox
     Dim KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"))
 
     'Windows
@@ -65,6 +66,10 @@ Module LevelEditor
 
     End Sub
 
+    Public Sub CC(sender As Object, e As EventArgs) Handles FakeCHK.CheckedChanged
+        MsgBox(sender.ToString)
+    End Sub
+
     Sub DrawGrid()
         For x = 0 To (XBlocks - 1) * BlockSize Step BlockSize
             For y = 0 To (YBlocks - 1) * BlockSize Step BlockSize
@@ -95,14 +100,14 @@ Module LevelEditor
 
         With NameTB
             .TextAlign = HorizontalAlignment.Left
-            .Text = "hello"
+            .Text = "LevelName"
             .ForeColor = Drawing.Color.White
             .SFMLFont = New SFML.Graphics.Font("arial.ttf")
             .SFMLFontSize = 32
             .Location = New Point(400, 150)
             .Size = New Size(300, 30)
             .IDStr = "BGBTN"
-            .MaxLength = 10
+            .MaxLength = 15
             EditorGUI.Controls.Add(NameTB)
         End With
 
@@ -119,12 +124,31 @@ Module LevelEditor
             .BoundToTextbox = True
             EditorGUI.Controls.Add(KB)
         End With
+
+        With FakeCHK
+            .CheckSpriteNormal = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\CheckMark.png"))
+            .CheckSpriteUnchecked = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\CheckMark1.png"))
+            .Checked = True
+            .Location = New Point(500, 500)
+            .ForeColor = Drawing.Color.Purple
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 24
+            .TextAlign = ContentAlignment.MiddleLeft
+            .Text = "Is Fake?"
+            .Autoscale = True
+            .BoxSize = New Size(24, 24)
+            .BorderColornormal = SFML.Graphics.Color.White
+            .BorderColorHover = New SFML.Graphics.Color(0, 0, 128)
+            .CycleIndeterminate = True
+            EditorGUI.Controls.Add(FakeCHK)
+        End With
     End Sub
 
 
 
 #Region "Handles"
     Sub EditorWindowClick(sender As Object, e As MouseButtonEventArgs)
+
         For x = 0 To EditorGUI.Controls.Count - 1
 
             If TypeOf EditorGUI.Controls(x) Is SFMLButton Then
@@ -145,14 +169,14 @@ Module LevelEditor
                 DirectCast(EditorGUI.Controls(x), SFMLTextbox).SetActive(New Point(e.X, e.Y))
 
             ElseIf TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
-                DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
-                'Dim k As New SFMLKeyboard(DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SFMLFont)
-                'k = DirectCast(EditorGUI.Controls(x), SFMLKeyboard)
+                If NameTB.IsActive Then
+                    DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
+                End If
 
-                'If GGeom.CheckIfRectangleIntersectsPoint(k.Bounds, New Point(e.X, e.Y)) Then
-                '    k.SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
-                'End If
+            ElseIf TypeOf EditorGUI.Controls(x) Is SFMLCheckbox Then
+                DirectCast(EditorGUI.Controls(x), SFMLCheckbox).ChangeCheckedState(New Point(e.X, e.Y))
             End If
+
         Next
     End Sub
 
@@ -160,6 +184,10 @@ Module LevelEditor
         For x = 0 To EditorGUI.Controls.Count - 1
             If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
                 DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyToggled(New Point(e.X, e.Y))
+
+
+            ElseIf TypeOf EditorGUI.controls(x) Is SFMLCheckbox Then
+                DirectCast(EditorGUI.Controls(x), SFMLCheckbox).CheckHover(New Point(e.X, e.Y))
             End If
         Next
     End Sub
