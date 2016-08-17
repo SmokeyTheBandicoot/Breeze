@@ -21,9 +21,9 @@ Module LevelSelect
 
     Dim Levels As New List(Of String)
     Dim BTNs(,) As SFMLButton
-    Dim BackBTN As New SFMLButton
-    Dim TutorialBTN As New SFMLButton
-    Dim FinallvlBTN As New SFMLButton
+    Dim WithEvents BackBTN As New SFMLButton
+    Dim WithEvents TutorialBTN As New SFMLButton
+    Dim WithEvents FinallvlBTN As New SFMLButton
 
     'GUI Position
     Dim SqSize As Size
@@ -56,11 +56,11 @@ Module LevelSelect
                     .ToggleChangesColor = True
                     .Size = New Size(50, 50)
                     .Location = New Point(CInt(window.Size.X \ 2 - SqSize.Width \ 2 + 50 * x + 10 * x), CInt(window.Size.Y - 200 - SqSize.Height + 50 * y + 10 * y))
-                    '.AutoPadding = True
                     .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
                     .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
                     .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
                     .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+                    AddHandler b.Click, AddressOf LevelButtonClick
                     LevelSelectGUI.Controls.Add(b)
                 End With
             Next
@@ -130,15 +130,30 @@ Module LevelSelect
 
     Sub LevelSelectWindowClick(sender As Object, e As MouseButtonEventArgs)
         For x = 0 To LevelSelectGUI.Controls.Count - 1
-            If TypeOf LevelSelectGUI.Controls(x) Is SFMLButton Then
-                If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(LevelSelectGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
-                    Select Case LevelSelectGUI.Controls(x).Text.ToUpper
-                        Case "> BACK"
-                            CurrentState = GameStates.MainMenu
-                    End Select
-                End If
-            End If
+            LevelSelectGUI.Controls(x).CheckClick(New Point(e.X, e.Y))
+            'If TypeOf LevelSelectGUI.Controls(x) Is SFMLButton Then
+            '    If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(LevelSelectGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
+            '        Select Case LevelSelectGUI.Controls(x).Text.ToUpper
+            '            Case "> BACK"
+            '                CurrentState = GameStates.MainMenu
+            '        End Select
+            '    End If
+            'End If
         Next
+    End Sub
+
+    Public Sub GoBack(sender As Object, e As EventArgs) Handles BackBTN.Click
+        CurrentState = GameStates.MainMenu
+    End Sub
+
+    Public Sub LevelButtonClick(sender As Object, e As EventArgs)
+        Select Case DirectCast(sender, SFMLButton).Text.ToUpper
+            Case "1"
+                'Open level 1
+            Case "2"
+                'Open level 2
+                'etc
+        End Select
     End Sub
 
     Sub LevelSelectMouseMoved(sender As Object, e As MouseMoveEventArgs)

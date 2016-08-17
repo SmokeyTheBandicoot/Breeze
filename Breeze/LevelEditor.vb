@@ -31,7 +31,10 @@ Module LevelEditor
     'Dim BlockBTN As New SFMLButton
     'Dim BGBTN As New SFMLButton
 
+    Dim AuthorTB As New SFMLTextbox
     Dim NameTB As New SFMLTextbox
+    Dim WithEvents TilesetGB As New SFMLGroupbox
+
     Dim WithEvents FakeCHK As New SFMLCheckbox
     Dim KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"))
 
@@ -141,6 +144,19 @@ Module LevelEditor
             .BorderColorHover = New SFML.Graphics.Color(0, 0, 128)
             .CycleIndeterminate = True
             EditorGUI.Controls.Add(FakeCHK)
+        End With
+
+        With TilesetGB
+            .ControlBackColor = SFML.Graphics.Color.Transparent
+            .Forecolor = SFML.Graphics.Color.White
+            .BorderColor = SFML.Graphics.Color.Magenta
+            .BoxBackColor = SFML.Graphics.Color.Cyan
+            .Location = New Point(0, 0)
+            .SFMLFont = KeyFont
+            .Size = New Size(500, 500)
+            .SFMLFontSize = 24
+            .Text = "Cave"
+            EditorGUI.Controls.Add(TilesetGB)
         End With
     End Sub
 
