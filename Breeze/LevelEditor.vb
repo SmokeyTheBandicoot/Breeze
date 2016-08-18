@@ -34,6 +34,7 @@ Module LevelEditor
     Dim AuthorTB As New SFMLTextbox
     Dim NameTB As New SFMLTextbox
     Dim WithEvents TilesetGB As New SFMLGroupbox
+    Dim WithEvents ProgBR As New SFMLProgressBar
 
     Dim WithEvents FakeCHK As New SFMLCheckbox
     Dim KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"))
@@ -67,10 +68,6 @@ Module LevelEditor
         'Draw GUI
         EditorGUI.Draw(window)
 
-    End Sub
-
-    Public Sub CC(sender As Object, e As EventArgs) Handles FakeCHK.CheckedChanged
-        MsgBox(sender.ToString)
     End Sub
 
     Sub DrawGrid()
@@ -158,14 +155,27 @@ Module LevelEditor
             .Text = "Cave"
             EditorGUI.Controls.Add(TilesetGB)
         End With
+
+        With ProgBR
+            .Value = 50
+            .Size = New Size(300, 50)
+            .Location = New Point(500, 500)
+            .SFMLFont = KeyFont
+            .FontAutoSize = True
+            .Text = "Hello"
+            EditorGUI.Controls.Add(ProgBR)
+        End With
     End Sub
 
 
 
 #Region "Handles"
+
     Sub EditorWindowClick(sender As Object, e As MouseButtonEventArgs)
 
         For x = 0 To EditorGUI.Controls.Count - 1
+
+            EditorGUI.Controls(x).CheckClick(New Point(e.X, e.Y))
 
             If TypeOf EditorGUI.Controls(x) Is SFMLButton Then
                 Dim b As New SFMLButton
