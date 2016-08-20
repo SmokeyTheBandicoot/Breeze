@@ -19,6 +19,9 @@ Module LevelEditor
     Friend WithEvents Grid As New SFMLGrid
     Friend WithEvents GroupTileset As New SFMLGroupbox
     Friend WithEvents GroupBGObjects As New SFMLGroupbox
+    Friend WithEvents ForeRB As New SFMLRadioButton
+    Friend WithEvents NormalRB As New SFMLRadioButton
+    Friend WithEvents BackRB As New SFMLRadioButton
     'Friend WithEvents Button5 As Button
     'Friend WithEvents Button6 As Button
     'Friend WithEvents GroupBox2 As GroupBox
@@ -46,6 +49,7 @@ Module LevelEditor
     'Friend WithEvents Label4 As Label
 
     Friend WithEvents FakeCHK As New SFMLCheckbox
+    Friend WithEvents RealCHK As New SFMLCheckbox
     Friend KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"))
 
     'Windows
@@ -152,6 +156,24 @@ Module LevelEditor
             EditorGUI.Controls.Add(FakeCHK)
         End With
 
+        With realCHK
+            .CheckSpriteNormal = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\CheckMark.png"))
+            .CheckSpriteUnchecked = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\CheckMark1.png"))
+            .Checked = True
+            .Location = New Point(500, 550)
+            .ForeColor = Drawing.Color.Purple
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 24
+            .TextAlign = ContentAlignment.MiddleLeft
+            .Text = "Is Real?"
+            .Autoscale = True
+            .BoxSize = New Size(24, 24)
+            '.BorderColornormal = SFML.Graphics.Color.White
+            '.BorderColorHover = New SFML.Graphics.Color(0, 0, 128)
+            .CycleIndeterminate = False
+            EditorGUI.Controls.Add(RealCHK)
+        End With
+
         With GroupTileset
             .Location = New Point(818, 35)
             .SFMLFont = KeyFont
@@ -169,6 +191,36 @@ Module LevelEditor
             .Text = "Backgrounds"
             EditorGUI.Controls.Add(GroupBGObjects)
         End With
+
+        With ForeRB
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 16
+            .Location = New Point(824, 500)
+            .Text = "Foreground"
+            .BoxSize = New Size(15, 15)
+            .Group = "ZBlockEnum"
+            EditorGUI.Controls.Add(ForeRB)
+        End With
+
+        With NormalRB
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 16
+            .Location = New Point(824, 520)
+            .Text = "Normal Z position"
+            .BoxSize = New Size(15, 15)
+            .Group = "ZBlockEnum"
+            EditorGUI.Controls.Add(NormalRB)
+        End With
+
+        With BackRB
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 16
+            .Location = New Point(824, 540)
+            .Text = "BackGround"
+            .BoxSize = New Size(15, 15)
+            .Group = "ZBlockEnum"
+            EditorGUI.Controls.Add(BackRB)
+        End With
     End Sub
 
 
@@ -178,35 +230,26 @@ Module LevelEditor
     Sub EditorWindowClick(sender As Object, e As MouseButtonEventArgs)
 
         For x = 0 To EditorGUI.Controls.Count - 1
-
             EditorGUI.Controls(x).CheckClick(New Point(e.X, e.Y))
 
-            If TypeOf EditorGUI.Controls(x) Is SFMLButton Then
-                Dim b As New SFMLButton
-                b = DirectCast(EditorGUI.Controls(x), SFMLButton)
-                If GGeom.CheckIfRectangleIntersectsPoint(b.Bounds, New Point(e.X, e.Y)) Then
-                    Select Case DirectCast(EditorGUI.Controls(x), SFMLButton).IDStr
-                        Case "BlockBTN"
-                            BlocksForm.Show()
-                            BlocksForm.Focus()
-                        Case "BGBTN"
-                            BGForm.Show()
-                            BGForm.Focus()
-                    End Select
+            'Additional External Click Checks
+            If GGeom.CheckIfRectangleIntersectsPoint(New Rectangle(EditorGUI.Controls(x).location.X, EditorGUI.Controls(x).location.Y, EditorGUI.Controls(x).size.Width, EditorGUI.Controls(x).size.Height), New Point(e.X, e.Y)) Then
+
+                'Textbox
+                If TypeOf EditorGUI.Controls(x) Is SFMLTextbox Then
+                    DirectCast(EditorGUI.Controls(x), SFMLTextbox).SetActive(New Point(e.X, e.Y))
+
+                    'Keyboard
+                ElseIf TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
+                    If NameTB.IsActive Then
+                        DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
+                    End If
+
+                    'Radiobutton
+                ElseIf TypeOf EditorGUI.Controls(x) Is SFMLRadioButton Then
+                    ControlUtils.RadioButtonUtils.CheckRadiobuttons(EditorGUI, DirectCast(EditorGUI.Controls(x), SFMLRadioButton), DirectCast(EditorGUI.Controls(x), SFMLRadioButton).Group, New Point(e.X, e.Y))
                 End If
-
-            ElseIf TypeOf EditorGUI.Controls(x) Is SFMLTextbox Then
-                DirectCast(EditorGUI.Controls(x), SFMLTextbox).SetActive(New Point(e.X, e.Y))
-
-            ElseIf TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
-                If NameTB.IsActive Then
-                    DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
-                End If
-
-            ElseIf TypeOf EditorGUI.Controls(x) Is SFMLCheckbox Then
-                'DirectCast(EditorGUI.Controls(x), SFMLCheckbox).ChangeCheckedState(New Point(e.X, e.Y))
             End If
-
         Next
     End Sub
 
@@ -225,7 +268,7 @@ Module LevelEditor
     Sub EditorKeyDown(sender As Object, e As SFML.Window.KeyEventArgs)
         For x = 0 To EditorGUI.Controls.Count - 1
             If TypeOf EditorGUI.Controls(x) Is SFMLTextbox Then
-                TextboxUtils.UpdateTextboxes(EditorGUI, e.Code.ToString)
+                ControlUtils.TextboxUtils.UpdateTextboxes(EditorGUI, e.Code.ToString)
             End If
         Next
     End Sub
