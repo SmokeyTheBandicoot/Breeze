@@ -13,7 +13,7 @@ Module MainBackbone
 
     'Main Window
     Public WithEvents window As RenderWindow
-    Public WithEvents lv As New LevelEditorForm
+    Public WithEvents lv As New GameWindow
 
     'GUIs
     Public MainGameGUI As New GUI
@@ -42,7 +42,7 @@ Module MainBackbone
 
     'Font
     Public GlobalFont As SFML.Graphics.Font = New SFML.Graphics.Font("crash-a-like.ttf")
-    Public KeyFont As New SFML.Graphics.Font("arial.ttf")
+    Public KeyFont As New SFML.Graphics.Font("times.ttf")
 
     'Load/Save level
     Dim r As BinaryReader
@@ -103,6 +103,8 @@ Module MainBackbone
     ''' </summary>
     Public Sub PreInit()
 
+        lv.WindowState = FormWindowState.Normal
+        'lv.Size = New Size(My.Computer.Screen.Bounds.Width, My.Computer.Screen.Bounds.Height)
         Console.WriteLine("Starting Pre-Initialization")
         'window = New RenderWindow(New VideoMode(1080, 720), "Breeze", Styles.None)
         window = New RenderWindow(lv.Panel1.Handle)

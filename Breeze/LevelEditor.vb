@@ -9,35 +9,44 @@ Imports System.Windows.Forms
 Imports GameShardsCoreSFML
 
 Module LevelEditor
-    'Editor
-    Public ShowGrid As Boolean = True
-    Public XBlocks As Integer = 25
-    Public YBlocks As Integer = 19
-    Public BlockSize As Integer = 32
-
-    'Rendering
-    Public Backrect As New RectangleShape(New Vector2f(window.Size.X, window.Size.Y))
-    Public GridRect As New RectangleShape(New Vector2f(XBlocks * BlockSize, YBlocks * BlockSize))
-    Public GridColor As New SFML.Graphics.Color
-    Public GridOutlineColor As New SFML.Graphics.Color
-
-
-    'Grid
-    Public r As New RectangleShape
-    Dim GridOffSetX As Integer = 6
-    Dim GridOffSetY As Integer = 6
-
     'GUI
     'Dim BlockBTN As New SFMLButton
     'Dim BGBTN As New SFMLButton
 
-    Dim AuthorTB As New SFMLTextbox
-    Dim NameTB As New SFMLTextbox
-    Dim WithEvents TilesetGB As New SFMLGroupbox
-    Dim WithEvents ProgBR As New SFMLProgressBar
+    Friend AuthorTB As New SFMLTextbox
+    Friend NameTB As New SFMLTextbox
+    Friend WithEvents Panel1 As New SFMLPanel
+    Friend WithEvents Grid As New SFMLGrid
+    Friend WithEvents GroupTileset As New SFMLGroupbox
+    Friend WithEvents GroupBGObjects As New SFMLGroupbox
+    'Friend WithEvents Button5 As Button
+    'Friend WithEvents Button6 As Button
+    'Friend WithEvents GroupBox2 As GroupBox
+    'Friend WithEvents GroupBox4 As GroupBox
+    'Friend WithEvents Button4 As Button
+    'Friend WithEvents Button3 As Button
+    'Friend WithEvents GroupBox5 As GroupBox
+    'Friend WithEvents CheckBox4 As CheckBox
+    'Friend WithEvents CheckBox3 As CheckBox
+    'Friend WithEvents CheckBox2 As CheckBox
+    'Friend WithEvents CheckBox1 As CheckBox
+    'Friend WithEvents Label3 As Label
+    'Friend WithEvents Label2 As Label
+    'Friend WithEvents NumericUpDown2 As NumericUpDown
+    'Friend WithEvents NumericUpDown1 As NumericUpDown
+    'Friend WithEvents Button1 As Button
+    'Friend WithEvents Button2 As Button
+    'Friend WithEvents Label1 As Label
+    'Friend WithEvents Button7 As Button
+    'Friend WithEvents Button8 As Button
+    'Friend WithEvents GroupBox8 As GroupBox
+    'Friend WithEvents GroupBox7 As GroupBox
+    'Friend WithEvents GroupBox6 As GroupBox
+    'Friend WithEvents Label5 As Label
+    'Friend WithEvents Label4 As Label
 
-    Dim WithEvents FakeCHK As New SFMLCheckbox
-    Dim KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"))
+    Friend WithEvents FakeCHK As New SFMLCheckbox
+    Friend KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"))
 
     'Windows
     Dim BlocksForm As New BlocksForm
@@ -46,7 +55,7 @@ Module LevelEditor
     Sub DoEditor()
 
         'Draw BackColor
-        window.Draw(Backrect)
+        window.Clear(SFML.Graphics.Color.White)
 
         'Draw Backrect
 
@@ -61,26 +70,12 @@ Module LevelEditor
         'Draw Player
 
         'Draw Grid
-        If ShowGrid Then
-            DrawGrid()
-        End If
+        'If ShowGrid Then
+        '    DrawGrid()
+        'End If
 
         'Draw GUI
         EditorGUI.Draw(window)
-
-    End Sub
-
-    Sub DrawGrid()
-        For x = 0 To (XBlocks - 1) * BlockSize Step BlockSize
-            For y = 0 To (YBlocks - 1) * BlockSize Step BlockSize
-                r.OutlineThickness = 1
-                r.Position = New Vector2f(x + GridOffSetX, y + GridOffSetY)
-                r.Size = New Vector2f(BlockSize, BlockSize)
-                r.FillColor = GridColor
-                r.OutlineColor = GridOutlineColor
-                window.Draw(r)
-            Next
-        Next
 
     End Sub
 
@@ -88,25 +83,39 @@ Module LevelEditor
         BlocksForm = New BlocksForm
         BlocksForm.StartPosition = FormStartPosition.CenterScreen
 
-        Backrect.FillColor = SFML.Graphics.Color.White
-        Backrect.FillColor = SFML.Graphics.Color.Black
+        'Backrect.FillColor = SFML.Graphics.Color.White
+        'Backrect.FillColor = SFML.Graphics.Color.Black
 
-        GridOutlineColor = SFML.Graphics.Color.White
-        GridColor = SFML.Graphics.Color.Transparent
+        'GridOutlineColor = SFML.Graphics.Color.White
+        'GridColor = SFML.Graphics.Color.Transparent
 
     End Sub
 
     Public Sub GUILoadLevelEditor()
+        With Panel1
+            .Location = New Point(12, 12)
+            .Size = New Size(800, 608)
+            .ContentColor = SFML.Graphics.Color.White
+            EditorGUI.Controls.Add(Panel1)
+        End With
+
+        With Grid
+            .Location = New Point(12, 12)
+            .Size = New Size(800, 608)
+            .ContentColor = SFML.Graphics.Color.Transparent
+            EditorGUI.Controls.Add(Grid)
+        End With
 
         With NameTB
             .TextAlign = HorizontalAlignment.Left
             .Text = "LevelName"
-            .ForeColor = Drawing.Color.White
+            .ForeColor = Drawing.Color.Black
             .SFMLFont = New SFML.Graphics.Font("arial.ttf")
             .SFMLFontSize = 32
             .Location = New Point(400, 150)
             .Size = New Size(300, 30)
             .IDStr = "BGBTN"
+            .AutoSize = False
             .MaxLength = 15
             EditorGUI.Controls.Add(NameTB)
         End With
@@ -137,33 +146,28 @@ Module LevelEditor
             .Text = "Is Fake?"
             .Autoscale = True
             .BoxSize = New Size(24, 24)
-            .BorderColornormal = SFML.Graphics.Color.White
-            .BorderColorHover = New SFML.Graphics.Color(0, 0, 128)
+            '.BorderColornormal = SFML.Graphics.Color.White
+            '.BorderColorHover = New SFML.Graphics.Color(0, 0, 128)
             .CycleIndeterminate = True
             EditorGUI.Controls.Add(FakeCHK)
         End With
 
-        With TilesetGB
-            .ControlBackColor = SFML.Graphics.Color.Transparent
-            .Forecolor = SFML.Graphics.Color.White
-            .BorderColor = SFML.Graphics.Color.Magenta
-            .BoxBackColor = SFML.Graphics.Color.Cyan
-            .Location = New Point(0, 0)
+        With GroupTileset
+            .Location = New Point(818, 35)
             .SFMLFont = KeyFont
-            .Size = New Size(500, 500)
-            .SFMLFontSize = 24
-            .Text = "Cave"
-            EditorGUI.Controls.Add(TilesetGB)
+            .Size = New Size(359, 365)
+            .SFMLFontSize = 16
+            .Text = "Tileset"
+            EditorGUI.Controls.Add(GroupTileset)
         End With
 
-        With ProgBR
-            .Value = 50
-            .Size = New Size(300, 50)
-            .Location = New Point(500, 500)
+        With GroupBGObjects
             .SFMLFont = KeyFont
-            .FontAutoSize = True
-            .Text = "Hello"
-            EditorGUI.Controls.Add(ProgBR)
+            .SFMLFontSize = 16
+            .Location = New Point(824, 274)
+            .Size = New Size(347, 120)
+            .Text = "Backgrounds"
+            EditorGUI.Controls.Add(GroupBGObjects)
         End With
     End Sub
 
@@ -200,7 +204,7 @@ Module LevelEditor
                 End If
 
             ElseIf TypeOf EditorGUI.Controls(x) Is SFMLCheckbox Then
-                DirectCast(EditorGUI.Controls(x), SFMLCheckbox).ChangeCheckedState(New Point(e.X, e.Y))
+                'DirectCast(EditorGUI.Controls(x), SFMLCheckbox).ChangeCheckedState(New Point(e.X, e.Y))
             End If
 
         Next
@@ -212,7 +216,7 @@ Module LevelEditor
                 DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyToggled(New Point(e.X, e.Y))
 
 
-            ElseIf TypeOf EditorGUI.controls(x) Is SFMLCheckbox Then
+            ElseIf TypeOf EditorGUI.Controls(x) Is SFMLCheckbox Then
                 DirectCast(EditorGUI.Controls(x), SFMLCheckbox).CheckHover(New Point(e.X, e.Y))
             End If
         Next
