@@ -22,6 +22,7 @@ Module LevelEditor
     Friend WithEvents ForeRB As New SFMLRadioButton
     Friend WithEvents NormalRB As New SFMLRadioButton
     Friend WithEvents BackRB As New SFMLRadioButton
+    Friend WithEvents Combo As New SFMLCombobox
     'Friend WithEvents Button5 As Button
     'Friend WithEvents Button6 As Button
     'Friend WithEvents GroupBox2 As GroupBox
@@ -221,6 +222,23 @@ Module LevelEditor
             .Group = "ZBlockEnum"
             EditorGUI.Controls.Add(BackRB)
         End With
+
+        With Combo
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 16
+            .Location = New Point(300, 650)
+            .Size = New Size(500, 30)
+            .ColorTop = New SFML.Graphics.Color(0, 55, 255)
+            .ColorBottom = New SFML.Graphics.Color(255, 200, 0)
+            .Text = "Music"
+            .Items.Add("Music1")
+            .Items.Add("Music2")
+            .Items.Add("Music3")
+            .Items.Add("Music4")
+            .Items.Add("Music5")
+            .Items.Add("Music6")
+            EditorGUI.Controls.Add(Combo)
+        End With
     End Sub
 
 
@@ -255,13 +273,16 @@ Module LevelEditor
 
     Sub LevelEditorMouseMoved(sender As Object, e As MouseMoveEventArgs)
         For x = 0 To EditorGUI.Controls.Count - 1
+            EditorGUI.Controls(x).CheckHover(New Point(e.X, e.Y))
+
+            'Additional Handling
             If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
                 DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyToggled(New Point(e.X, e.Y))
-
-
-            ElseIf TypeOf EditorGUI.Controls(x) Is SFMLCheckbox Then
-                DirectCast(EditorGUI.Controls(x), SFMLCheckbox).CheckHover(New Point(e.X, e.Y))
             End If
+
+            'ElseIf TypeOf EditorGUI.Controls(x) Is SFMLCheckbox Then
+            '    DirectCast(EditorGUI.Controls(x), SFMLCheckbox).CheckHover(New Point(e.X, e.Y))
+
         Next
     End Sub
 
