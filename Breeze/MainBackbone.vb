@@ -144,6 +144,19 @@ Module MainBackbone
         End Select
     End Sub
 
+    Sub WindowClickUp(ByVal sender As Object, e As MouseButtonEventArgs) Handles window.MouseButtonReleased
+        Select Case True
+            'Case CurrentState.Name.ToUpper = "MAINGAME"
+            '    MainGameWindowClickUp(sender, e)
+            'Case CurrentState.Name.ToUpper = "LEVELEDITOR"
+            '    EditorWindowClickUp(sender, e)
+            'Case CurrentState.Name.ToUpper = "MAINMENU"
+            '    MainMenuWindowClickUp(sender, e)
+            Case CurrentState.Name.ToUpper = "LEVELSELECT"
+                LevelSelectWindowClickUp(sender, e)
+        End Select
+    End Sub
+
     Sub WindowClosed(ByVal sender As Object, ByVal e As EventArgs) Handles window.Closed
         window.Close()
         'Dim window = CType(sender, RenderWindow)

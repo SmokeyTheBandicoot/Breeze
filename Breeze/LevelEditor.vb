@@ -23,6 +23,7 @@ Module LevelEditor
     Friend WithEvents NormalRB As New SFMLRadioButton
     Friend WithEvents BackRB As New SFMLRadioButton
     Friend WithEvents Combo As New SFMLCombobox
+    Friend WithEvents VolumeTB As New SFMLTrackbar
     'Friend WithEvents Button5 As Button
     'Friend WithEvents Button6 As Button
     'Friend WithEvents GroupBox2 As GroupBox
@@ -56,6 +57,8 @@ Module LevelEditor
     'Windows
     Dim BlocksForm As New BlocksForm
     Dim BGForm As New BGForm
+
+
 
     Sub DoEditor()
 
@@ -231,13 +234,27 @@ Module LevelEditor
             .ColorTop = New SFML.Graphics.Color(0, 55, 255)
             .ColorBottom = New SFML.Graphics.Color(255, 200, 0)
             .Text = "Music"
-            .Items.Add("Music1")
-            .Items.Add("Music2")
-            .Items.Add("Music3")
-            .Items.Add("Music4")
-            .Items.Add("Music5")
-            .Items.Add("Music6")
+            .Items.Add("Default")
+            .Items.Add("Reverber")
+            .Items.Add("Moon")
+            .Items.Add("Underwater")
+            .Items.Add("Jungle")
+            .Items.Add("Space")
             EditorGUI.Controls.Add(Combo)
+        End With
+
+        With VolumeTB
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 16
+            .Location = New Point(100, 700)
+            .Size = New Size(300, 10)
+            .Orientation = Orientation.Horizontal
+            .TickStyle = TickStyle.BottomRight
+            .Maximum = 100
+            .Minimum = 0
+            .Value = 50
+            .TickFrequency = 10
+            EditorGUI.Controls.Add(VolumeTB)
         End With
     End Sub
 
@@ -246,7 +263,6 @@ Module LevelEditor
 #Region "Handles"
 
     Sub EditorWindowClick(sender As Object, e As MouseButtonEventArgs)
-
         For x = 0 To EditorGUI.Controls.Count - 1
             EditorGUI.Controls(x).CheckClick(New Point(e.X, e.Y))
 
@@ -266,19 +282,38 @@ Module LevelEditor
                     'Radiobutton
                 ElseIf TypeOf EditorGUI.Controls(x) Is SFMLRadioButton Then
                     ControlUtils.RadioButtonUtils.CheckRadiobuttons(EditorGUI, DirectCast(EditorGUI.Controls(x), SFMLRadioButton), DirectCast(EditorGUI.Controls(x), SFMLRadioButton).Group, New Point(e.X, e.Y))
+
+                    '    'TrackBar
+                    'ElseIf TypeOf EditorGUI.Controls(x) Is SFMLTrackbar Then
+                    '    DirectCast(EditorGUI.Controls(x), SFMLTrackbar).SetClick(True)
+
                 End If
             End If
         Next
     End Sub
 
+    Sub LevelSelectWindowClickUp(sender As Object, e As MouseButtonEventArgs)
+        For x = 0 To EditorGUI.Controls.Count - 1
+            EditorGUI.Controls(x).CheckClickUp(New Point(e.X, e.Y))
+
+            ''Additional External Click Checks
+            'If GGeom.CheckIfRectangleIntersectsPoint(New Rectangle(EditorGUI.Controls(x).location.X, EditorGUI.Controls(x).location.Y, EditorGUI.Controls(x).size.Width, EditorGUI.Controls(x).size.Height), New Point(e.X, e.Y)) Then
+            '    If TypeOf EditorGUI.Controls(x) Is SFMLTrackbar Then
+            '        DirectCast(EditorGUI.Controls(x), SFMLTrackbar).SetClick(False)
+
+            '    End If
+            'End If
+        Next
+    End Sub
+
     Sub LevelEditorMouseMoved(sender As Object, e As MouseMoveEventArgs)
         For x = 0 To EditorGUI.Controls.Count - 1
-            EditorGUI.Controls(x).CheckHover(New Point(e.X, e.Y))
+            EditorGUI.Controls(x).CheckClickUp(New Point(e.X, e.Y))
 
-            'Additional Handling
-            If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
-                DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyToggled(New Point(e.X, e.Y))
-            End If
+            ''Additional Handling
+            'If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
+            '    DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyToggled(New Point(e.X, e.Y))
+            'End If
 
             'ElseIf TypeOf EditorGUI.Controls(x) Is SFMLCheckbox Then
             '    DirectCast(EditorGUI.Controls(x), SFMLCheckbox).CheckHover(New Point(e.X, e.Y))
