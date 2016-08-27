@@ -231,8 +231,8 @@ Module LevelEditor
             .SFMLFontSize = 16
             .Location = New Point(300, 650)
             .Size = New Size(500, 30)
-            .ColorTop = New SFML.Graphics.Color(0, 55, 255)
-            .ColorBottom = New SFML.Graphics.Color(255, 200, 0)
+            .ColorTop = New SFML.Graphics.Color(0, 0, 0)
+            .ColorBottom = New SFML.Graphics.Color(255, 255, 255)
             .Text = "Music"
             .Items.Add("Default")
             .Items.Add("Reverber")
@@ -249,10 +249,11 @@ Module LevelEditor
             .Location = New Point(100, 700)
             .Size = New Size(300, 10)
             .Orientation = Orientation.Horizontal
-            .TickStyle = TickStyle.BottomRight
+            .TickStyle = TickStyle.Both
             .Maximum = 100
             .Minimum = 0
-            .Value = 50
+            .Value = 100
+            .ShowPercent = False
             .TickFrequency = 10
             EditorGUI.Controls.Add(VolumeTB)
         End With
@@ -269,12 +270,7 @@ Module LevelEditor
             'Additional External Click Checks
             If GGeom.CheckIfRectangleIntersectsPoint(New Rectangle(EditorGUI.Controls(x).location.X, EditorGUI.Controls(x).location.Y, EditorGUI.Controls(x).size.Width, EditorGUI.Controls(x).size.Height), New Point(e.X, e.Y)) Then
 
-                'Textbox
-                If TypeOf EditorGUI.Controls(x) Is SFMLTextbox Then
-                    DirectCast(EditorGUI.Controls(x), SFMLTextbox).SetActive(New Point(e.X, e.Y))
-
-                    'Keyboard
-                ElseIf TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
+                If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
                     If NameTB.IsActive Then
                         DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
                     End If
@@ -282,10 +278,6 @@ Module LevelEditor
                     'Radiobutton
                 ElseIf TypeOf EditorGUI.Controls(x) Is SFMLRadioButton Then
                     ControlUtils.RadioButtonUtils.CheckRadiobuttons(EditorGUI, DirectCast(EditorGUI.Controls(x), SFMLRadioButton), DirectCast(EditorGUI.Controls(x), SFMLRadioButton).Group, New Point(e.X, e.Y))
-
-                    '    'TrackBar
-                    'ElseIf TypeOf EditorGUI.Controls(x) Is SFMLTrackbar Then
-                    '    DirectCast(EditorGUI.Controls(x), SFMLTrackbar).SetClick(True)
 
                 End If
             End If
@@ -308,7 +300,7 @@ Module LevelEditor
 
     Sub LevelEditorMouseMoved(sender As Object, e As MouseMoveEventArgs)
         For x = 0 To EditorGUI.Controls.Count - 1
-            EditorGUI.Controls(x).CheckClickUp(New Point(e.X, e.Y))
+            EditorGUI.Controls(x).CheckHover(New Point(e.X, e.Y))
 
             ''Additional Handling
             'If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
