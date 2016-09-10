@@ -148,12 +148,12 @@ Module MainBackbone
         Select Case True
             'Case CurrentState.Name.ToUpper = "MAINGAME"
             '    MainGameWindowClickUp(sender, e)
-            'Case CurrentState.Name.ToUpper = "LEVELEDITOR"
-            '    EditorWindowClickUp(sender, e)
-            'Case CurrentState.Name.ToUpper = "MAINMENU"
-            '    MainMenuWindowClickUp(sender, e)
-            Case CurrentState.Name.ToUpper = "LEVELSELECT"
-                LevelSelectWindowClickUp(sender, e)
+            Case CurrentState.Name.ToUpper = "LEVELEDITOR"
+                LevelEditorWindowClickUp(sender, e)
+                'Case CurrentState.Name.ToUpper = "MAINMENU"
+                '    MainMenuWindowClickUp(sender, e)
+                'Case CurrentState.Name.ToUpper = "LEVELSELECT"
+                'LevelSelectWindowClickUp(sender, e)
         End Select
     End Sub
 

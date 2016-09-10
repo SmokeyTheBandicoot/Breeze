@@ -24,6 +24,9 @@ Module LevelEditor
     Friend WithEvents BackRB As New SFMLRadioButton
     Friend WithEvents Combo As New SFMLCombobox
     Friend WithEvents VolumeTB As New SFMLTrackbar
+    Friend WithEvents ToolTip As New SFMLToolTip
+    Friend WithEvents Slider As New SFMLSlider
+    Friend WithEvents Bar As New SFMLHScrollbar
     'Friend WithEvents Button5 As Button
     'Friend WithEvents Button6 As Button
     'Friend WithEvents GroupBox2 As GroupBox
@@ -249,14 +252,48 @@ Module LevelEditor
             .Location = New Point(100, 700)
             .Size = New Size(300, 10)
             .Orientation = Orientation.Horizontal
-            .TickStyle = TickStyle.Both
-            .Maximum = 100
-            .Minimum = 0
-            .Value = 100
+            .TickStyle = TickStyle.TopLeft
+            .Maximum = 300
+            .Minimum = 100
+            .Value = 150
             .ShowPercent = False
             .TickFrequency = 10
             EditorGUI.Controls.Add(VolumeTB)
         End With
+
+        With Slider
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 16
+            .Location = New Point(400, 700)
+            .Size = New Size(300, 30)
+            .ForeColor = Drawing.Color.Black
+            .Minimum = 0
+            .Maximum = 4000
+            .Value = 150
+            .ShowPercent = True
+            .Text = "Volume"
+            EditorGUI.Controls.Add(Slider)
+        End With
+
+        With Bar
+            .Location = New Point(650, 100)
+            .Size = New Size(400, 20)
+            .sfmlfont = KeyFont
+            .SFMLFontSize = 16
+            .Visible = True
+            .Minimum = 0
+            .Maximum = 4000
+            .Value = 1000
+            .LargeChange = (.Maximum - .Minimum) \ 5
+            .SmallChange = (.Maximum - .Minimum) \ 15
+            EditorGUI.Controls.Add(Bar)
+        End With
+
+        With ToolTip
+            EditorGUI.Controls.Add(ToolTip)
+        End With
+
+        ToolTip.SetToolTip(VolumeTB.Bounds, "This is the Volume Trackbar")
     End Sub
 
 
@@ -284,7 +321,7 @@ Module LevelEditor
         Next
     End Sub
 
-    Sub LevelSelectWindowClickUp(sender As Object, e As MouseButtonEventArgs)
+    Sub LevelEditorWindowClickUp(sender As Object, e As MouseButtonEventArgs)
         For x = 0 To EditorGUI.Controls.Count - 1
             EditorGUI.Controls(x).CheckClickUp(New Point(e.X, e.Y))
 
