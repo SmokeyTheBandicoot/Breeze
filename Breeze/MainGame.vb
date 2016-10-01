@@ -72,6 +72,19 @@ Module MainGame
 
     'Graphic Elements
     Dim Font As SFML.Graphics.Font
+
+    'Light Engine
+    'Base Light Factors (radius)
+    Dim BasePlayerLight As Integer = 300
+    Dim BaseVariationFactor As Integer = 10 '(percent)
+    Dim BaseVariationInterval As Integer = 100 '(seconds/100, half cycle)
+
+    Dim Darkness As New RenderTexture(window.Size.X, window.Size.Y)
+    Dim DarknessSprite As New Sprite(Darkness.Texture)
+    Dim LightText As New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\Light.png")
+    Dim LightSprite As New Sprite(LightText)
+    Dim LightDirection As SByte = 1
+
     Dim Player As New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"))
     Dim HUDTopLeft As New Text
     'Dim Background As New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
@@ -82,18 +95,20 @@ Module MainGame
     Dim CloseBTN As New SFMLButton
 
     Public Sub DoMainGame()
-        If Not IsPaused Then
 
-            'Start calculating FPS
-            TimeSpan = Now
+        'Start calculating FPS
+        TimeSpan = Now
+
+        If Not IsPaused Then
 
             'Execute Physics
             GameLoop()
 
             'Update Rendering
 
+
             'Update HUDs
-            HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}{0}Current State: {9}{0}Backscroll: {10}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Rotation.ToString, CurrentState.Name.ToString, BackScroll.ToString)
+            HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}{0}Current State: {9}{0}FPS: {10}{0}LightScale: {11}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Rotation.ToString, BaseVariationInterval, FPS.ToString, LightSprite.Scale.ToString)
             HUDTopLeft.CharacterSize = 24
             HUDTopLeft.Color = SFML.Graphics.Color.Black
             HUDTopLeft.Position = New Vector2f(0, 0)
@@ -102,6 +117,14 @@ Module MainGame
             Player.Position = New Vector2f(Pict.Left, Pict.Top)
             Player.Rotation = 48 * CSng(Atan(YSpeed / XSpeed))
             Player.Color = New SFML.Graphics.Color(128, 128, 128)
+
+            'Update Player Lighting
+            LightSprite.Position = New Vector2f((Pict.Left + Pict.Width), CSng(Pict.Top + Pict.Height / 2))
+            'MsgBox(BasePlayerLight)
+            LightSprite.Scale = New Vector2f(CSng((BasePlayerLight / LightText.Size.X) + (Sin(BaseVariationInterval / 100 * PI)) * BasePlayerLight * BaseVariationFactor / (100 * 100)), CSng((BasePlayerLight / LightText.Size.Y) + (Sin(BaseVariationInterval / 100 * PI) * BasePlayerLight * BaseVariationFactor / (100 * 100))))
+            Darkness.Clear(New SFML.Graphics.Color(0, 0, 0, 225))
+            Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
+            Darkness.Display()
 
             'Update CheckPoints
 
@@ -128,6 +151,7 @@ Module MainGame
         End If
 
         'Draw everything
+
         'Draw Background
         Select Case level.BackGround.HScroll
             Case Background.HorizontalScrollMode.Fixed
@@ -135,11 +159,11 @@ Module MainGame
                 'If Background.Right < window.Size.X Then
                 '    For x = 0 To Background.GetHowManyRepeated(window,level)
                 '        Background.BGImage.Position = New Vector2f(x * Background.BGImage.Texture.Size.X - BackScroll, Background.BGImage.Position.Y)
-                window.Draw(level.BackGround.BGImage)
+                window.Draw(level.BackGround.BGImage, New RenderStates(BlendMode.Alpha))
                 level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X + level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
-                window.Draw(level.BackGround.BGImage)
+                window.Draw(level.BackGround.BGImage, New RenderStates(BlendMode.Alpha))
                 level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X + level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
-                window.Draw(level.BackGround.BGImage)
+                window.Draw(level.BackGround.BGImage, New RenderStates(BlendMode.Alpha))
                 level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X - 2 * level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
                 'Next
 
@@ -147,8 +171,6 @@ Module MainGame
             Case Background.HorizontalScrollMode.Stretched
 
         End Select
-
-        'window.Draw(Background.BGImage)
 
         'Draw Background objects
         'Draw Blocks
@@ -162,6 +184,9 @@ Module MainGame
         'Draw player
         window.Draw(Player)
 
+        'Draw Darkness
+        window.Draw(DarknessSprite)
+
         'Draw HUDs
         window.Draw(HUDTopLeft)
 
@@ -171,6 +196,20 @@ Module MainGame
 
 #Region "Loading"
     Public Sub PostInitMainGame()
+
+        'Configure Darkness
+        Darkness.Clear(New SFML.Graphics.Color(0, 0, 0, 255))
+        Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
+        Darkness.Display()
+
+        'Configure Lighting
+        LightSprite.Origin = New Vector2f(LightSprite.Origin.X + LightSprite.GetGlobalBounds.Width / 2, LightSprite.Origin.Y + LightSprite.GetGlobalBounds.Height / 2)
+        LightSprite.Scale = New Vector2f(CSng((BasePlayerLight / LightSprite.Texture.Size.X) + Sin(BaseVariationInterval / 1000)), CSng((BasePlayerLight / LightSprite.Texture.Size.Y) + Sin(BaseVariationInterval / 1000)))
+
+        ''Configure Light
+        'PLight.Radius = Pict.Width * 2
+        'PLight.Origin = New Vector2f(PLight.Origin.X + PLight.Radius, PLight.Origin.Y + PLight.Radius)
+        'PLight.FillColor = New SFML.Graphics.Color(255, 255, 255, 0)
 
         'Configure HUD
         HUDTopLeft.Font = New SFML.Graphics.Font("crash-a-like.ttf")
@@ -183,6 +222,9 @@ Module MainGame
 
         'Load the correct level - should go in tandem with MainMenu
         level = LoadLevel("No path yet")
+
+
+        'level.BackGround.BGImage.Color = New SFML.Graphics.Color(level.BackGround.BGImage.Color.R, level.BackGround.BGImage.Color.G, level.BackGround.BGImage.Color.B, 128)
 
     End Sub
 
@@ -245,56 +287,63 @@ Module MainGame
             'Start calculating framerate
             TimeSpan = Now
 
+            'Calculate Light Span Cycle
+            BaseVariationInterval += LightDirection
+            If BaseVariationInterval > 100 Then
+                LightDirection = -1
+            ElseIf BaseVariationInterval < 0 Then
+                LightDirection = 1
+            End If
+
             'Do physics
             YSpeed += Gravity
-            YSpeed += YAcceleration
-            XSpeed = CSng(XSpeed + (Wind / 100))
-            XSpeed += XAcceleration
+                YSpeed += YAcceleration
+                XSpeed = CSng(XSpeed + (Wind / 100))
+                XSpeed += XAcceleration
 
-            XSpeed *= Friction
-            YSpeed *= Friction
+                XSpeed *= Friction
+                YSpeed *= Friction
 
-            'Blocks.left -= xspeed
-            'Pict.Left = CInt(Pict.Left + XSpeed)
-            BackScroll += XSpeed / 25
-            Pict.Top = CInt(Pict.Top + YSpeed)
+                'Blocks.left -= xspeed
+                'Pict.Left = CInt(Pict.Left + XSpeed)
+                BackScroll += XSpeed / 25
+                Pict.Top = CInt(Pict.Top + YSpeed)
 
-            If Pict.Top > window.Size.Y - Pict.Height Then
-                Pict.Top = CInt(window.Size.Y - Pict.Height)
-                YSpeed *= -1
-            ElseIf Pict.Top < 0 Then
-                Pict.Top = 0
-                YSpeed *= -1
+                If Pict.Top > window.Size.Y - Pict.Height Then
+                    Pict.Top = CInt(window.Size.Y - Pict.Height)
+                    YSpeed *= -1
+                ElseIf Pict.Top < 0 Then
+                    Pict.Top = 0
+                    YSpeed *= -1
+                End If
+
+                If Pict.Left > window.Size.X - Pict.Width Then
+                    Pict.Left = CInt(window.Size.X - Pict.Width)
+                    XSpeed *= -1
+                ElseIf Pict.Left < 0 Then
+                    Pict.Left = 0
+                    XSpeed *= -1
+                End If
+
+                'Do light calculations
+                'If Items.Count > 0 Then
+                '    For x = 0 To Items.Count - 1
+                '        If Items(x).Item = Item.ItemType.Light Then
+                '            Dim r As New IntRect(CInt(DirectCast(Items(x), Light).Location.X), CInt(DirectCast(Items(x), Light).Location.Y), CInt(DirectCast(Items(x), Light).AoE), CInt(DirectCast(Items(x), Light).AoE))
+                '            If Player.TextureRect.Intersects(r) Then
+                '                Player.Color = (DirectCast(Items(x), Light).Color)
+                '            End If
+                '        End If
+                '    Next
+                'End If
             End If
-
-            If Pict.Left > window.Size.X - Pict.Width Then
-                Pict.Left = CInt(window.Size.X - Pict.Width)
-                XSpeed *= -1
-            ElseIf Pict.Left < 0 Then
-                Pict.Left = 0
-                XSpeed *= -1
-            End If
-
-            'Do light calculations
-            'If Items.Count > 0 Then
-            '    For x = 0 To Items.Count - 1
-            '        If Items(x).Item = Item.ItemType.Light Then
-            '            Dim r As New IntRect(CInt(DirectCast(Items(x), Light).Location.X), CInt(DirectCast(Items(x), Light).Location.Y), CInt(DirectCast(Items(x), Light).AoE), CInt(DirectCast(Items(x), Light).AoE))
-            '            If Player.TextureRect.Intersects(r) Then
-            '                Player.Color = (DirectCast(Items(x), Light).Color)
-            '            End If
-            '        End If
-            '    Next
-            'End If
-        End If
     End Sub
 
 #Region "Handles"
 
-    Sub MainGameKeyDown(sender As Object, e As SFML.Window.KeyEventArgs)
-
+    Sub MainGameKeyDown(sender As Object, e As Keys)
         Select Case True
-            Case e.Code = Keyboard.Key.W Or e.Code = Keyboard.Key.Up
+            Case e = Keys.W Or e = Keys.Up
                 Gravity = 0
                 'Select Case Env
                 '    Case FlightEnvironment.Normal
@@ -305,7 +354,7 @@ Module MainGame
                 '        YAcceleration = -0.05
                 'End Select
                 YAcceleration = -XSpeed / (2 * Env)
-            Case e.Code = Keyboard.Key.S Or e.Code = Keyboard.Key.Down
+            Case e = Keys.S Or e = Keys.Down
                 Select Case Env
                     Case FlightEnvironment.Normal
                         YAcceleration = 0.2
@@ -314,7 +363,7 @@ Module MainGame
                     Case FlightEnvironment.Moon
                         YAcceleration = 0.05
                 End Select
-            Case e.Code = Keyboard.Key.D Or e.Code = Keyboard.Key.Right
+            Case e = Keys.D Or e = Keys.Right
 
                 'Select Case Env
                 '    Case FlightEnvironment.Normal
@@ -326,7 +375,7 @@ Module MainGame
                 'End Select
                 XAcceleration = CSng(Wind / 100 + (Wind / 200))
                 'Wind = 0
-            Case e.Code = Keyboard.Key.A Or e.Code = Keyboard.Key.Left
+            Case e = Keys.A Or e = Keys.Left
 
                 'Select Case Env
                 '    Case FlightEnvironment.Normal
@@ -340,7 +389,7 @@ Module MainGame
         End Select
     End Sub
 
-    Sub MainGameKeyUp(ByVal sender As Object, e As SFML.Window.KeyEventArgs)
+    Sub MainGameKeyUp(ByVal sender As Object, e As Keys)
 
         Select Case Env
             Case FlightEnvironment.Normal
@@ -351,8 +400,8 @@ Module MainGame
                 Gravity = 0.05
         End Select
 
-        Select Case e.Code
-            Case Keyboard.Key.Right Or Keyboard.Key.Left
+        Select Case True
+            Case e = Keys.Right Or e = Keys.Left
                 XAcceleration = BreezeSpeed
         End Select
 

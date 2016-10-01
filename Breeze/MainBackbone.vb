@@ -92,7 +92,9 @@ Module MainBackbone
             End If
 
             'Invalidate the window
-            Window.Display()
+            window.Display()
+
+            window.SetTitle("GameShards Breeze lol")
 
         End While
     End Sub
@@ -162,30 +164,33 @@ Module MainBackbone
         'Dim window = CType(sender, RenderWindow)
     End Sub
 
-    Sub WindowKeyDown(ByVal sender As Object, e As SFML.Window.KeyEventArgs) Handles window.KeyPressed
+    'KeyDowns and KeyUps are now handled by Windows.Forms window (GameShardsBreeze.designer), since the SFML window didn't register Keys anymore (because it was included in a Windows.Forms.Panel)
+#Region "KeyDowns/Ups"
+    'Sub WindowKeyDown(ByVal sender As Object, e As SFML.Window.KeyEventArgs) Handles window.KeyPressed
+    '    MsgBox("test")
+    '    Select Case True
+    '        Case CurrentState.Name.ToUpper = "MAINGAME"
+    '            MainGameKeyDown(sender, e)
+    '        Case CurrentState.Name.ToUpper = "LEVELEDITOR"
+    '            EditorKeyDown(sender, e)
+    '        Case CurrentState.Name.ToUpper = "MAINMENU"
 
-        Select Case True
-            Case CurrentState.Name.ToUpper = "MAINGAME"
-                MainGameKeyDown(sender, e)
-            Case CurrentState.Name.ToUpper = "LEVELEDITOR"
-                EditorKeyDown(sender, e)
-            Case CurrentState.Name.ToUpper = "MAINMENU"
+    '        Case CurrentState.Name.ToUpper = "LEVELSELECT"
 
-            Case CurrentState.Name.ToUpper = "LEVELSELECT"
+    '    End Select
+    'End Sub
 
-        End Select
-    End Sub
-
-    Sub WindowKeyUp(ByVal sender As Object, e As SFML.Window.KeyEventArgs) Handles window.KeyReleased
-        Select Case True
-            Case CurrentState.Name.ToUpper = "MAINGAME"
-                MainGameKeyUp(sender, e)
-            Case CurrentState.Name.ToUpper = "LEVELEDITOR"
-                EditorKeyup(sender, e)
-            Case CurrentState.Name.ToUpper = "MAINMENU"
-            Case CurrentState.Name.ToUpper = "LEVELSELECT"
-        End Select
-    End Sub
+    'Sub WindowKeyUp(ByVal sender As Object, e As SFML.Window.KeyEventArgs) Handles window.KeyReleased
+    '    Select Case True
+    '        Case CurrentState.Name.ToUpper = "MAINGAME"
+    '            MainGameKeyUp(sender, e)
+    '        Case CurrentState.Name.ToUpper = "LEVELEDITOR"
+    '            EditorKeyup(sender, e)
+    '        Case CurrentState.Name.ToUpper = "MAINMENU"
+    '        Case CurrentState.Name.ToUpper = "LEVELSELECT"
+    '    End Select
+    'End Sub
+#End Region
 
     Sub WindowMouseMove(sender As Object, e As MouseMoveEventArgs) Handles window.MouseMoved
         Select Case True

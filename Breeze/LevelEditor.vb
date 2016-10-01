@@ -15,10 +15,11 @@ Module LevelEditor
 
     Friend AuthorTB As New SFMLTextbox
     Friend NameTB As New SFMLTextbox
-    Friend WithEvents Panel1 As New SFMLPanel
+    'Friend WithEvents Panel1 As New SFMLPanel
     Friend WithEvents Grid As New SFMLGrid
     Friend WithEvents GroupTileset As New SFMLGroupbox
     Friend WithEvents GroupBGObjects As New SFMLGroupbox
+    Friend WithEvents GroupItems As New SFMLGroupbox
     Friend WithEvents ForeRB As New SFMLRadioButton
     Friend WithEvents NormalRB As New SFMLRadioButton
     Friend WithEvents BackRB As New SFMLRadioButton
@@ -55,7 +56,7 @@ Module LevelEditor
 
     Friend WithEvents FakeCHK As New SFMLCheckbox
     Friend WithEvents RealCHK As New SFMLCheckbox
-    Friend KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"))
+    Friend KB As New SFMLKeyboard(New SFML.Graphics.Font("arial.ttf"), SFMLKeyboard.KeyBoardUI.NumPad)
 
     'Windows
     Dim BlocksForm As New BlocksForm
@@ -103,12 +104,12 @@ Module LevelEditor
     End Sub
 
     Public Sub GUILoadLevelEditor()
-        With Panel1
-            .Location = New Point(12, 12)
-            .Size = New Size(800, 608)
-            .ContentColor = SFML.Graphics.Color.White
-            EditorGUI.Controls.Add(Panel1)
-        End With
+        'With Panel1
+        '    .Location = New Point(12, 12)
+        '    .Size = New Size(800, 608)
+        '    .ContentColor = SFML.Graphics.Color.White
+        '    EditorGUI.Controls.Add(Panel1)
+        'End With
 
         With Grid
             .Location = New Point(12, 12)
@@ -121,26 +122,44 @@ Module LevelEditor
             .TextAlign = HorizontalAlignment.Left
             .Text = "LevelName"
             .ForeColor = Drawing.Color.Black
-            .SFMLFont = New SFML.Graphics.Font("arial.ttf")
+            .SFMLFont = KeyFont
             .SFMLFontSize = 32
             .Location = New Point(400, 150)
             .Size = New Size(300, 30)
-            .IDStr = "BGBTN"
+            .IDStr = "NameTB"
             .AutoSize = False
             .MaxLength = 15
             EditorGUI.Controls.Add(NameTB)
         End With
 
+        With AuthorTB
+            .BackColor = Drawing.Color.AliceBlue
+            .BorderColor = SFML.Graphics.Color.Magenta
+            .TextAlign = HorizontalAlignment.Left
+            .Text = "LevelAuthor"
+            .ForeColor = Drawing.Color.Black
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 32
+            .Location = New Point(400, 200)
+            .Size = New Size(300, 30)
+            .IDStr = "AutTB"
+            .AutoSize = False
+            .MaxLength = 15
+            EditorGUI.Controls.Add(AuthorTB)
+        End With
+
         'KB = New SFMLKeyboard(New Vector2f(0, 650), New Vector2f(522, 172))
         With KB
             '.KeyPadding = 3
-            .SetKeys(New Vector2f(0, 660), New Vector2f(522, 172), 0, .SFMLFont)
+            .UI = SFMLKeyboard.KeyBoardUI.NumPad
+            .SetKeys(New Vector2f(0, 660), New Vector2f(522, 172), 0, .SFMLFont, SFMLKeyboard.KeyBoardUI.NumPad)
             .ForeColor = Drawing.Color.Black
             .Font = New Drawing.Font("arial", 15)
             '.SFMLFont = New SFML.Graphics.Font("arial.ttf")
             '.SizeWH = New Size(522, 172)
             '.Location = New Point(0, 700)
             NameTB.BoundKeyboard = KB
+            AuthorTB.BoundKeyboard = KB
             .BoundToTextbox = True
             EditorGUI.Controls.Add(KB)
         End With
@@ -290,6 +309,8 @@ Module LevelEditor
         End With
 
         With ToolTip
+            .SFMLFont = KeyFont
+            .SFMLFontSize = 16
             EditorGUI.Controls.Add(ToolTip)
         End With
 
@@ -310,6 +331,8 @@ Module LevelEditor
                 If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
                     If NameTB.IsActive Then
                         DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyPressed(New Point(e.X, e.Y), NameTB.Text)
+                    ElseIf AuthorTB.IsActive Then
+                        DirectCast(EditorGUI.Controls(x), SFMLKeyboard).SetKeyPressed(New Point(e.X, e.Y), AuthorTB.Text)
                     End If
 
                     'Radiobutton
@@ -350,15 +373,15 @@ Module LevelEditor
         Next
     End Sub
 
-    Sub EditorKeyDown(sender As Object, e As SFML.Window.KeyEventArgs)
+    Sub EditorKeyDown(sender As Object, e As Keys)
         For x = 0 To EditorGUI.Controls.Count - 1
             If TypeOf EditorGUI.Controls(x) Is SFMLTextbox Then
-                ControlUtils.TextboxUtils.UpdateTextboxes(EditorGUI, e.Code.ToString)
+                ControlUtils.TextboxUtils.UpdateTextboxes(EditorGUI, e.ToString)
             End If
         Next
     End Sub
 
-    Sub EditorKeyup(sender As Object, e As SFML.Window.KeyEventArgs)
+    Sub EditorKeyup(sender As Object, e As Keys)
 
     End Sub
 #End Region

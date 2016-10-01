@@ -48,4 +48,28 @@ Partial Class GameWindow
     End Sub
 
     Friend WithEvents Panel1 As Windows.Forms.Panel
+
+    Sub panel1KDown(sender As Object, e As Windows.Forms.KeyEventArgs) Handles Me.KeyDown
+        Select Case True
+            Case CurrentState.Name.ToUpper = "MAINGAME"
+                MainGameKeyDown(sender, e.KeyCode)
+            Case CurrentState.Name.ToUpper = "LEVELEDITOR"
+                EditorKeyDown(sender, e.KeyCode)
+            Case CurrentState.Name.ToUpper = "MAINMENU"
+
+            Case CurrentState.Name.ToUpper = "LEVELSELECT"
+
+        End Select
+    End Sub
+
+    Sub panel1KUp(sender As Object, e As Windows.Forms.KeyEventArgs) Handles Me.KeyUp
+        Select Case True
+            Case CurrentState.Name.ToUpper = "MAINGAME"
+                MainGameKeyUp(sender, e.KeyCode)
+            Case CurrentState.Name.ToUpper = "LEVELEDITOR"
+                EditorKeyup(sender, e.KeyCode)
+            Case CurrentState.Name.ToUpper = "MAINMENU"
+            Case CurrentState.Name.ToUpper = "LEVELSELECT"
+        End Select
+    End Sub
 End Class
