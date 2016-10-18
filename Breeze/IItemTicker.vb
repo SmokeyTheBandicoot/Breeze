@@ -1,15 +1,10 @@
-﻿Imports System.Windows.Forms
-Public Class Item
-    Inherits PictureBox
+﻿Imports System.Drawing
+Imports SFML.Graphics
 
+Public Interface IItemTicker
+    Inherits IEntity
 
-    Public ID As Integer
-    Public XSpeed As Single = 0
-    Public YSpeed As Single = 0
-
-    Public Item As ItemType
-
-    Public Enum ItemType As Byte
+    Enum ItemType As Byte
         Coin '1 Coins
         RedCoin 'Item required to unlock something
         BlueCoin  '5 Coins
@@ -36,5 +31,26 @@ Public Class Item
         Projectile
         Light
     End Enum
-End Class
 
+    Property XSpeed As Single
+
+    Property YSpeed As Single
+
+    Property STRItemType As ItemType
+
+    Property Sprite As Sprite
+
+    Property SpriteColor As SFML.Graphics.Color
+
+    Property AttachedObj As IEntity
+
+    Sub SetAttachedObj(ByRef Obj As IEntity)
+
+    Function GetAttachedObj() As IEntity
+
+    Sub Tick()
+
+    Sub Draw(ByRef w As RenderWindow)
+
+
+End Interface

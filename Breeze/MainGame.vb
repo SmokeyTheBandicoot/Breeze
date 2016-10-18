@@ -22,6 +22,7 @@ Module MainGame
     Dim FPS As Double
 
     'Engine
+    Dim ItemID As Integer
     Dim IsCont As Boolean = False
     Dim Pict As New PictureBox
     Dim angle As Single = 0
@@ -73,21 +74,23 @@ Module MainGame
     'Graphic Elements
     Dim Font As SFML.Graphics.Font
 
-    'Light Engine
-    'Base Light Factors (radius)
-    Dim BasePlayerLight As Integer = 300
+    Public Items As New List(Of IItemTicker)
+    Public Blocks As New List(Of Block)
+    Public BGs As New List(Of BackgroundObject)
+    Public Player As New Player
+
+    'Light Engine (Behind the scenes calculations)
     Dim BaseVariationFactor As Integer = 10 '(percent)
     Dim BaseVariationInterval As Integer = 100 '(seconds/100, half cycle)
-
+    '"Dark" engine
     Dim Darkness As New RenderTexture(window.Size.X, window.Size.Y)
     Dim DarknessSprite As New Sprite(Darkness.Texture)
     Dim LightText As New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\Light.png")
-    Dim LightSprite As New Sprite(LightText)
+    Public LightSprite As New Sprite(LightText)
+
     Dim LightDirection As SByte = 1
 
-    Dim Player As New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Bankruptcy\[Bankruptcy]Bankruptcy.png"))
     Dim HUDTopLeft As New Text
-    'Dim Background As New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
 
     'GUI elements
     'MainGame
@@ -108,27 +111,24 @@ Module MainGame
 
 
             'Update HUDs
-            HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}{0}Current State: {9}{0}FPS: {10}{0}LightScale: {11}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Rotation.ToString, BaseVariationInterval, FPS.ToString, LightSprite.Scale.ToString)
+            HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}{0}Current State: {9}{0}FPS: {10}{0}LightScale: {11}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Sprite.Rotation.ToString, BaseVariationInterval, FPS.ToString, LightSprite.Scale.ToString)
             HUDTopLeft.CharacterSize = 24
             HUDTopLeft.Color = SFML.Graphics.Color.Black
             HUDTopLeft.Position = New Vector2f(0, 0)
 
             'Update Player position
-            Player.Position = New Vector2f(Pict.Left, Pict.Top)
-            Player.Rotation = 48 * CSng(Atan(YSpeed / XSpeed))
-            Player.Color = New SFML.Graphics.Color(128, 128, 128)
-
-            'Update Player Lighting
-            LightSprite.Position = New Vector2f((Pict.Left + Pict.Width), CSng(Pict.Top + Pict.Height / 2))
-            'MsgBox(BasePlayerLight)
-            LightSprite.Scale = New Vector2f(CSng((BasePlayerLight / LightText.Size.X) + (Sin(BaseVariationInterval / 100 * PI)) * BasePlayerLight * BaseVariationFactor / (100 * 100)), CSng((BasePlayerLight / LightText.Size.Y) + (Sin(BaseVariationInterval / 100 * PI) * BasePlayerLight * BaseVariationFactor / (100 * 100))))
-            Darkness.Clear(New SFML.Graphics.Color(0, 0, 0, 225))
-            Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
-            Darkness.Display()
+            Player.Location = Pict.Location
+            Player.Sprite.Position = New Vector2f(Pict.Left, Pict.Top)
+            Player.Sprite.Rotation = 48 * CSng(Atan(YSpeed / XSpeed))
+            Player.Sprite.Color = New SFML.Graphics.Color(255, 255, 255)
 
             'Update CheckPoints
 
             'Update Items
+            For x = 0 To Items.Count - 1
+                Items(x).Tick() 'Player.Sprite.GetGlobalBounds)
+            Next
+
 
             'Update Blocks
 
@@ -175,17 +175,52 @@ Module MainGame
         'Draw Background objects
         'Draw Blocks
         'Draw Items
+        'For x = 0 To Items.Count - 1
+        '    window.Draw(Items(x).Sprite)
+        'Next
+
+        ''Draw Sprites
+        ''Draw Lights
+        'Update Darkness mask
+        'Configure Darkness
+
+        'Update Player Lighting
+
+        'LightSprite.Position = New Vector2f((Pict.Left + Pict.Width), CSng(Pict.Top + Pict.Height / 2))
+        'LightSprite.Scale = New Vector2f(CSng((level.PlayerLightIntensity / LightText.Size.X) + (Sin(BaseVariationInterval / 100 * PI)) * level.PlayerLightIntensity * BaseVariationFactor / (100 * 100)), CSng((level.PlayerLightIntensity / LightText.Size.Y) + (Sin(BaseVariationInterval / 100 * PI) * level.PlayerLightIntensity * BaseVariationFactor / (100 * 100))))
+        'Darkness.Clear(level.Darkness)
+        'Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
+        'Darkness.Display()
+
+        Darkness.Clear(level.Darkness)
+        'Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
+
+        Dim z As Integer = 0
+        For x = 0 To Items.Count - 1
+            If Items(x).STRItemType = IItemTicker.ItemType.Light Then
+                'Darkness.Draw(DirectCast(Items(x), Light).Sprite, New RenderStates(BlendMode.Multiply))
+                'LightSprite.Position = New Vector2f((Pict.Left + Pict.Width), CSng(Pict.Top + Pict.Height / 2))
+                LightSprite.Scale = New Vector2f(CSng((DirectCast(Items(x), Light).Size.Width / LightText.Size.X) + (Sin(BaseVariationInterval / 100 * PI)) * DirectCast(Items(x), Light).Size.Width * DirectCast(Items(x), Light).Variation / (100 * 100)), CSng((DirectCast(Items(x), Light).Size.Width / LightText.Size.Y) + (Sin(BaseVariationInterval / 100 * PI) * DirectCast(Items(x), Light).Size.Width * DirectCast(Items(x), Light).Variation / (100 * 100))))
+                LightSprite.Position = New Vector2f(DirectCast(Items(x), Light).Sprite.Position.X, DirectCast(Items(x), Light).Sprite.Position.Y)
+                Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
+                'MsgBox(LightSprite.Position.ToString)
+                MsgBox(z)
+                z += 1
+            End If
+        Next
+
+        Darkness.Display()
 
         'Draw Checkpoints
 
-        'draw the GUI
-        MainGameGUI.Draw(window)
-
         'Draw player
-        window.Draw(Player)
+        window.Draw(Player.Sprite)
 
         'Draw Darkness
         window.Draw(DarknessSprite)
+
+        'draw the GUI
+        MainGameGUI.Draw(window)
 
         'Draw HUDs
         window.Draw(HUDTopLeft)
@@ -197,14 +232,14 @@ Module MainGame
 #Region "Loading"
     Public Sub PostInitMainGame()
 
-        'Configure Darkness
-        Darkness.Clear(New SFML.Graphics.Color(0, 0, 0, 255))
-        Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
-        Darkness.Display()
+        ''Configure Darkness
+        'Darkness.Clear(New SFML.Graphics.Color(0, 0, 0, 255))
+        'Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
+        'Darkness.Display()
 
         'Configure Lighting
         LightSprite.Origin = New Vector2f(LightSprite.Origin.X + LightSprite.GetGlobalBounds.Width / 2, LightSprite.Origin.Y + LightSprite.GetGlobalBounds.Height / 2)
-        LightSprite.Scale = New Vector2f(CSng((BasePlayerLight / LightSprite.Texture.Size.X) + Sin(BaseVariationInterval / 1000)), CSng((BasePlayerLight / LightSprite.Texture.Size.Y) + Sin(BaseVariationInterval / 1000)))
+        LightSprite.Scale = New Vector2f(CSng((level.PlayerLightIntensity / LightSprite.Texture.Size.X) + Sin(BaseVariationInterval / 1000)), CSng((level.PlayerLightIntensity / LightSprite.Texture.Size.Y) + Sin(BaseVariationInterval / 1000)))
 
         ''Configure Light
         'PLight.Radius = Pict.Width * 2
@@ -216,13 +251,23 @@ Module MainGame
         HUDTopLeft.CharacterSize = 20
 
         'YLocation will be replaced by level's startpoint
-        Player = New Sprite(New Texture("C:\GameShardsSoftware\paperplane.png"))
+        Player.Sprite = New Sprite(New Texture("C:\GameShardsSoftware\paperplane.png"))
         Pict.Location = New Point(XLoc, 30)
         Pict.Size = New Size(20, 20)
 
         'Load the correct level - should go in tandem with MainMenu
         level = LoadLevel("No path yet")
+        level.Darkness = New SFML.Graphics.Color(0, 0, 5, 245)
+        level.PlayerLightIntensity = 300
 
+        'Load the items from the level
+        Dim l As New Light(1, Nothing, Nothing, New Point(CInt(Player.Sprite.GetGlobalBounds.Left), CInt(Player.Sprite.GetGlobalBounds.Top)), level.PlayerLightIntensity, 10, level.PlayerLightColor, New Point(40, 10))
+        l.SetAttachedObj(DirectCast(Player, IEntity))
+        Items.Add(l)
+
+        Dim l2 As New Light(2, Nothing, Nothing, New Point(CInt(Player.Sprite.GetGlobalBounds.Left), CInt(Player.Sprite.GetGlobalBounds.Top)), level.PlayerLightIntensity, 0, level.PlayerLightColor, New Point(350, 0))
+        l2.SetAttachedObj(DirectCast(Player, IEntity))
+        Items.Add(l2)
 
         'level.BackGround.BGImage.Color = New SFML.Graphics.Color(level.BackGround.BGImage.Color.R, level.BackGround.BGImage.Color.G, level.BackGround.BGImage.Color.B, 128)
 
