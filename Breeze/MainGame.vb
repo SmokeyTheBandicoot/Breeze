@@ -85,7 +85,7 @@ Module MainGame
     '"Dark" engine
     Dim Darkness As New RenderTexture(window.Size.X, window.Size.Y)
     Dim DarknessSprite As New Sprite(Darkness.Texture)
-    Dim LightText As New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\Light.png")
+    Public LightText As New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\Light.png")
     Public LightSprite As New Sprite(LightText)
 
     Dim LightDirection As SByte = 1
@@ -195,17 +195,14 @@ Module MainGame
         Darkness.Clear(level.Darkness)
         'Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
 
-        Dim z As Integer = 0
         For x = 0 To Items.Count - 1
             If Items(x).STRItemType = IItemTicker.ItemType.Light Then
                 'Darkness.Draw(DirectCast(Items(x), Light).Sprite, New RenderStates(BlendMode.Multiply))
                 'LightSprite.Position = New Vector2f((Pict.Left + Pict.Width), CSng(Pict.Top + Pict.Height / 2))
                 LightSprite.Scale = New Vector2f(CSng((DirectCast(Items(x), Light).Size.Width / LightText.Size.X) + (Sin(BaseVariationInterval / 100 * PI)) * DirectCast(Items(x), Light).Size.Width * DirectCast(Items(x), Light).Variation / (100 * 100)), CSng((DirectCast(Items(x), Light).Size.Width / LightText.Size.Y) + (Sin(BaseVariationInterval / 100 * PI) * DirectCast(Items(x), Light).Size.Width * DirectCast(Items(x), Light).Variation / (100 * 100))))
-                LightSprite.Position = New Vector2f(DirectCast(Items(x), Light).Sprite.Position.X, DirectCast(Items(x), Light).Sprite.Position.Y)
+                LightSprite.Position = DirectCast(Items(x), Light).Sprite.Position 'New Vector2f(DirectCast(Items(x), Light).Sprite.Position.X, DirectCast(Items(x), Light).Sprite.Position.Y)
                 Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
                 'MsgBox(LightSprite.Position.ToString)
-                MsgBox(z)
-                z += 1
             End If
         Next
 
@@ -261,11 +258,11 @@ Module MainGame
         level.PlayerLightIntensity = 300
 
         'Load the items from the level
-        Dim l As New Light(1, Nothing, Nothing, New Point(CInt(Player.Sprite.GetGlobalBounds.Left), CInt(Player.Sprite.GetGlobalBounds.Top)), level.PlayerLightIntensity, 10, level.PlayerLightColor, New Point(40, 10))
+        Dim l As New Light(1, Nothing, Nothing, Nothing, level.PlayerLightIntensity, 0, level.PlayerLightColor, New Point(40, 10))
         l.SetAttachedObj(DirectCast(Player, IEntity))
         Items.Add(l)
 
-        Dim l2 As New Light(2, Nothing, Nothing, New Point(CInt(Player.Sprite.GetGlobalBounds.Left), CInt(Player.Sprite.GetGlobalBounds.Top)), level.PlayerLightIntensity, 0, level.PlayerLightColor, New Point(350, 0))
+        Dim l2 As New Light(2, Nothing, Nothing, Nothing, CInt(level.PlayerLightIntensity * 1 / 4), 0, level.PlayerLightColor, New Point(350, -50))
         l2.SetAttachedObj(DirectCast(Player, IEntity))
         Items.Add(l2)
 

@@ -1,6 +1,4 @@
-﻿Option Strict Off
-
-Imports System.Drawing
+﻿Imports System.Drawing
 Imports GameShardsBreeze
 Imports SFML.Graphics
 Imports SFML.System
@@ -19,7 +17,6 @@ Public Class Light
     Private _Sprite As Sprite
     Private _SpriteColor As SFML.Graphics.Color
     Private _AttachOffset As Point
-    Private point As Point
 
     Public Property AttachOffset As Point
         Get
@@ -39,11 +36,11 @@ Public Class Light
         End Set
     End Property
 
-    Public ReadOnly Property SpriteForm As Sprite
-        Get
-            Return New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\LightShade.png"))
-        End Get
-    End Property
+    'Public ReadOnly Property SpriteForm As Sprite
+    '    Get
+    '        Return New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\LightShade.png"))
+    '    End Get
+    'End Property
 
     Public Property ID As Integer Implements IItemTicker.ID
         Get
@@ -56,7 +53,7 @@ Public Class Light
 
     Public ReadOnly Property Center As Point Implements IEntity.Center
         Get
-            Return New Point(Location.X + Size.Width / 2, Location.Y + Size.Height / 2)
+            Return New Point(CInt(Location.X + Size.Width / 2), CInt(Location.Y + Size.Height / 2))
         End Get
     End Property
 
@@ -146,7 +143,7 @@ Public Class Light
         If AttachedObj IsNot Nothing Then
             Location = New Point(CInt(AttachedObj.Location.X + AttachedObj.Size.Width / 2), CInt(AttachedObj.Location.Y + AttachedObj.Size.Height / 2))
         Else
-            Location = New Point(Location.X + XSpeed, Location.Y + YSpeed)
+            Location = New Point(CInt(Location.X + XSpeed), CInt(Location.Y + YSpeed))
         End If
 
         Sprite.Position = New Vector2f(Location.X + AttachOffset.X, Location.Y + AttachOffset.Y)
@@ -161,25 +158,20 @@ Public Class Light
         STRItemType = IItemTicker.ItemType.Light
     End Sub
 
-    Sub New(Id As Integer, xspeed As Single, yspeed As Single, location As Point, radius As Integer, variation As Integer, color As SFML.Graphics.Color, Optional ByVal AttachOffset As Point = Nothing)
-        If AttachOffset = Nothing Then
-            AttachOffset = New Point(0, 0)
-        End If
+    Sub New(Id As Integer, xspeed As Single, yspeed As Single, location As Point, radius As Integer, variation As Integer, color As SFML.Graphics.Color, AttachOffset As Point)
+
         _ID = 0
         _XSpeed = xspeed
         _YSpeed = yspeed
         _AttachOffset = AttachOffset
         _Location = location
         _Radius = radius
-        _Sprite = MainGame.LightSprite
+        _Sprite = New Sprite(MainGame.LightText)
+        _Sprite.Origin = New Vector2f(_Sprite.Origin.X + _Sprite.GetGlobalBounds.Width / 2, _Sprite.Origin.Y + _Sprite.GetGlobalBounds.Height / 2)
         _SpriteColor = color
         STRItemType = IItemTicker.ItemType.Light
     End Sub
 
-    Public Sub New(Id As Integer, xspeed As Single, yspeed As Single, location As Point, radius As Integer, variation As Integer, color As SFML.Graphics.Color, Optional AttachOffset As Point = Nothing, Optional point As Point = Nothing)
-        Me.New(Id, xspeed, yspeed, location, radius, variation, color, AttachOffset)
-        Me.point = point
-    End Sub
 
     Public Sub SetAttachedObj(ByRef Obj As IEntity) Implements IItemTicker.SetAttachedObj
         _AttachedObj = Obj
