@@ -14,7 +14,7 @@ Module LevelSelect
     Dim BTNY As Byte = 6
 
     'Background
-    Dim Background As New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
+    Dim Background As New Background(New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\background2-12.gif")))
 
     'GUI
     Dim LevelSelectGUI As New GUI

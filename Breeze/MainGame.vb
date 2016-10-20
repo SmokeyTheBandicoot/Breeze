@@ -75,6 +75,7 @@ Module MainGame
     Dim Font As SFML.Graphics.Font
 
     Public Items As New List(Of IItemTicker)
+    Public Particles As New List(Of IEntityTicker)
     Public Blocks As New List(Of Block)
     Public BGs As New List(Of BackgroundObject)
     Public Player As New Player
@@ -87,6 +88,7 @@ Module MainGame
     Dim DarknessSprite As New Sprite(Darkness.Texture)
     Public LightText As New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\Light.png")
     Public LightSprite As New Sprite(LightText)
+    Public LightShade As New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\LightShade.png")
 
     Dim LightDirection As SByte = 1
 
@@ -113,7 +115,7 @@ Module MainGame
             'Update HUDs
             HUDTopLeft.DisplayedString = String.Format("Time: {1}{0}Position: X: {2}; Y:{3}{0}Speed: X: {4}; Y: {5}{0}Acceleration: X: {6}; Y: {7}{0}Rotation: {8}{0}Current State: {9}{0}FPS: {10}{0}LightScale: {11}", vbNewLine, Now.ToString, Pict.Left, Pict.Top, XSpeed, YSpeed, XAcceleration, YAcceleration, Player.Sprite.Rotation.ToString, BaseVariationInterval, FPS.ToString, LightSprite.Scale.ToString)
             HUDTopLeft.CharacterSize = 24
-            HUDTopLeft.Color = SFML.Graphics.Color.Black
+            HUDTopLeft.Color = SFML.Graphics.Color.White
             HUDTopLeft.Position = New Vector2f(0, 0)
 
             'Update Player position
@@ -127,8 +129,17 @@ Module MainGame
             'Update Items
             For x = 0 To Items.Count - 1
                 Items(x).Tick() 'Player.Sprite.GetGlobalBounds)
+                If Not Items(x).STRItemType = IItemTicker.ItemType.Light Then
+                    Items(x).Location = New Point(CInt(Items(x).Location.X - XSpeed), CInt(Items(x).Location.Y - YSpeed))
+                End If
             Next
 
+            'Update Particles
+            For y = 0 To Particles.Count - 1
+                Particles(y).Tick()
+                'Particles(y).Location = New Point(CInt(Particles(y).Location.X - XSpeed), CInt(Particles(y).Location.Y - YSpeed))
+                Particles(y).Location = New Point(CInt(Particles(y).Location.X - XSpeed), CInt(Particles(y).Location.Y))
+            Next
 
             'Update Blocks
 
@@ -175,9 +186,9 @@ Module MainGame
         'Draw Background objects
         'Draw Blocks
         'Draw Items
-        'For x = 0 To Items.Count - 1
-        '    window.Draw(Items(x).Sprite)
-        'Next
+        For x = 0 To Items.Count - 1
+            Items(x).Draw(window)
+        Next
 
         ''Draw Sprites
         ''Draw Lights
@@ -195,23 +206,34 @@ Module MainGame
         Darkness.Clear(level.Darkness)
         'Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
 
+
+
+
+
+        'Draw Checkpoints
+
+
+
+        'Draw player
+        window.Draw(Player.Sprite)
+
+        'Draw Particles
+        For x = 0 To Particles.Count - 1
+            Particles(x).Draw(window)
+        Next
+
         For x = 0 To Items.Count - 1
             If Items(x).STRItemType = IItemTicker.ItemType.Light Then
                 'Darkness.Draw(DirectCast(Items(x), Light).Sprite, New RenderStates(BlendMode.Multiply))
                 'LightSprite.Position = New Vector2f((Pict.Left + Pict.Width), CSng(Pict.Top + Pict.Height / 2))
                 LightSprite.Scale = New Vector2f(CSng((DirectCast(Items(x), Light).Size.Width / LightText.Size.X) + (Sin(BaseVariationInterval / 100 * PI)) * DirectCast(Items(x), Light).Size.Width * DirectCast(Items(x), Light).Variation / (100 * 100)), CSng((DirectCast(Items(x), Light).Size.Width / LightText.Size.Y) + (Sin(BaseVariationInterval / 100 * PI) * DirectCast(Items(x), Light).Size.Width * DirectCast(Items(x), Light).Variation / (100 * 100))))
                 LightSprite.Position = DirectCast(Items(x), Light).Sprite.Position 'New Vector2f(DirectCast(Items(x), Light).Sprite.Position.X, DirectCast(Items(x), Light).Sprite.Position.Y)
+                'LightSprite.Color = DirectCast(Items(x), Light).SpriteColor
                 Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
                 'MsgBox(LightSprite.Position.ToString)
             End If
         Next
-
         Darkness.Display()
-
-        'Draw Checkpoints
-
-        'Draw player
-        window.Draw(Player.Sprite)
 
         'Draw Darkness
         window.Draw(DarknessSprite)
@@ -254,18 +276,24 @@ Module MainGame
 
         'Load the correct level - should go in tandem with MainMenu
         level = LoadLevel("No path yet")
-        level.Darkness = New SFML.Graphics.Color(0, 0, 5, 245)
+        level.Darkness = New SFML.Graphics.Color(0, 0, 0, 255)
         level.PlayerLightIntensity = 300
 
         'Load the items from the level
-        Dim l As New Light(1, Nothing, Nothing, Nothing, level.PlayerLightIntensity, 0, level.PlayerLightColor, New Point(40, 10))
-        l.SetAttachedObj(DirectCast(Player, IEntity))
-        Items.Add(l)
 
-        Dim l2 As New Light(2, Nothing, Nothing, Nothing, CInt(level.PlayerLightIntensity * 1 / 4), 0, level.PlayerLightColor, New Point(350, -50))
-        l2.SetAttachedObj(DirectCast(Player, IEntity))
+        'Lights have to be loaded last, because they are attached to preiously loaded objects
+        'Dim p1 As New Particle(3, 17, 0, New Point(800, 100), New Size(50, 50), 100, New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\Aqua.png"), New SFML.Graphics.Color(255, 255, 255), 3, 0, -1, New Point(0, 0))
+        Dim p1 As New Particle(3, 17, 0, New Point(800, 100), New Size(50, 50), 100, Nothing, New SFML.Graphics.Color(255, 0, 0, 128), 3, 0, -1, New Point(0, 0))
+        Particles.Add(p1)
+
+        Dim l2 As New Light(2, Nothing, Nothing, Nothing, CInt(level.PlayerLightIntensity * 2), 0, New SFML.Graphics.Color(255, 0, 0, 128), New Point(0, 0))
+        l2.SetAttachedObj(DirectCast(Particles(0), IEntity))
         Items.Add(l2)
 
+        'Dim l As New Light(1, Nothing, Nothing, Nothing, level.PlayerLightIntensity * 4, 0, level.PlayerLightColor, New Point(40, 10))
+        Dim l As New Light(1, Nothing, Nothing, Nothing, level.PlayerLightIntensity * 2, 0, New SFML.Graphics.Color(0, 0, 255, 128), New Point(40, 10))
+        l.SetAttachedObj(DirectCast(Player, IEntity))
+        Items.Add(l)
         'level.BackGround.BGImage.Color = New SFML.Graphics.Color(level.BackGround.BGImage.Color.R, level.BackGround.BGImage.Color.G, level.BackGround.BGImage.Color.B, 128)
 
     End Sub

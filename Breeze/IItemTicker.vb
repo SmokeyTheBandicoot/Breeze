@@ -44,7 +44,7 @@ Public Interface IItemTicker
 
     Property AttachedObj As IEntity
 
-    Sub SetAttachedObj(ByRef Obj As IEntity)
+    Sub SetAttachedObj(ByRef Obj As IEntity, Optional ByVal CenterOffset As Boolean = True)
 
     Function GetAttachedObj() As IEntity
 

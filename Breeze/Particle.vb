@@ -3,6 +3,7 @@ Imports GameShardsBreeze
 Imports SFML.Graphics
 Imports SFML.System
 Imports GameShardsCore
+'Imports NCalc
 
 Public Class Particle
     Implements IEntityTicker
@@ -14,10 +15,11 @@ Public Class Particle
     Private _YEspression As String
     Private _STREntityType As IEntityTicker.EntityType
     Private _Corners As Integer
+    Private _RotationSpeed As Single
+    Private _Cshape As CircleShape
+    Private _Texture As Texture
     Private _Location As Point
     Private _Size As Size
-    Private _Rotation As Single
-    Private _Sprite As Sprite
     Private _Color As SFML.Graphics.Color
 
     Public Property ID As Integer Implements IEntity.ID
@@ -77,6 +79,24 @@ Public Class Particle
         End Set
     End Property
 
+    Public Property XEspression As String
+        Get
+            Return _XEspression
+        End Get
+        Set(value As String)
+            _XEspression = value
+        End Set
+    End Property
+
+    Public Property yEspression As String
+        Get
+            Return _YEspression
+        End Get
+        Set(value As String)
+            _YEspression = value
+        End Set
+    End Property
+
     Public Property STREntityType As IEntityTicker.EntityType Implements IEntityTicker.STREntityType
         Get
             Return _STREntityType
@@ -86,46 +106,73 @@ Public Class Particle
         End Set
     End Property
 
-    Public Property Sprite As Sprite Implements IEntityTicker.Sprite
+    Public Property Texture As Texture Implements IEntityTicker.Texture
         Get
-            Return _Sprite
+            Return _Texture
         End Get
-        Set(value As Sprite)
-            _Sprite = value
+        Set(value As Texture)
+            _Texture = value
         End Set
     End Property
 
-    Public Property Color As SFML.Graphics.Color Implements IEntityTicker.SpriteColor
+    Public Property Color As SFML.Graphics.Color Implements IEntityTicker.Color
         Get
-    Return _Color
+            Return _Color
         End Get
         Set(value As SFML.Graphics.Color)
             _Color = value
         End Set
     End Property
 
+    Public Property CShape As CircleShape Implements IEntityTicker.CShape
+        Get
+            Return _Cshape
+        End Get
+        Set(value As CircleShape)
+            _Cshape = value
+        End Set
+    End Property
+
+    Public Property RotationSpeed As Single
+        Get
+            Return _RotationSpeed
+        End Get
+        Set(value As Single)
+            _RotationSpeed = value
+        End Set
+    End Property
 
     Private Sub IItemTicker_Tick() Implements IEntityTicker.Tick '(ByVal AttachedObj As FloatRect) Implements IItemTicker.Tick
         Location = New Point(CInt(Location.X + XSpeed), CInt(Location.Y + YSpeed))
-
+        CShape.Position = New Vector2f(Location.X, Location.Y)
+        CShape.Rotation -= RotationSpeed
     End Sub
 
     Public Sub Draw(ByRef w As RenderWindow) Implements IEntityTicker.Draw
-        w.Draw(Sprite)
+        w.Draw(CShape)
     End Sub
 
     Public Sub New()
         STREntityType = IEntityTicker.EntityType.Particle
     End Sub
 
-    Sub New(Id As Integer, xspeed As Single, yspeed As Single, location As Point, size As Size, variation As Integer, color As SFML.Graphics.Color, AttachOffset As Point)
+    Sub New(Id As Integer, xspeed As Single, yspeed As Single, location As Point, size As Size, variation As Integer, texture As Texture, color As SFML.Graphics.Color, corners As Integer, rotation0 As Single, rotationspeed As Integer, AttachOffset As Point, Optional ByVal XEspr As String = "0", Optional ByVal YEspr As String = "0")
         _ID = 0
         _XSpeed = xspeed
         _YSpeed = yspeed
+        _XEspression = XEspr
+        _YEspression = YEspr
         _Location = location
         _Size = size
-        _Sprite = New Sprite(MainGame.LightText)
-        _Sprite.Origin = New Vector2f(_Sprite.Origin.X + _Sprite.GetGlobalBounds.Width / 2, _Sprite.Origin.Y + _Sprite.GetGlobalBounds.Height / 2)
+        _Cshape = New CircleShape
+        _Cshape.Texture = texture
+        _Cshape.Origin = New Vector2f(_Cshape.Origin.X + _Cshape.GetGlobalBounds.Width / 2, _Cshape.Origin.Y + _Cshape.GetGlobalBounds.Height / 2)
+        _Cshape.Radius = size.Width
+        _Cshape.SetPointCount(CUInt(corners))
+        _Cshape.Rotation = rotation0
+        _Cshape.FillColor = color
+        _Cshape.OutlineColor = New SFML.Graphics.Color(0, 0, 0, 0)
         _Color = color
+        STREntityType = IEntityTicker.EntityType.Particle
     End Sub
 End Class

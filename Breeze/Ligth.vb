@@ -18,6 +18,8 @@ Public Class Light
     Private _SpriteColor As SFML.Graphics.Color
     Private _AttachOffset As Point
 
+    Private LightShade As New Sprite
+
     Public Property AttachOffset As Point
         Get
             Return _AttachOffset
@@ -147,15 +149,13 @@ Public Class Light
         End If
 
         Sprite.Position = New Vector2f(Location.X + AttachOffset.X, Location.Y + AttachOffset.Y)
-
+        LightShade.Position = Sprite.Position
+        'LightShade.Color = SpriteColor
     End Sub
 
     Public Sub Draw(ByRef w As RenderWindow) Implements IItemTicker.Draw
-        w.Draw(Sprite, New RenderStates(BlendMode.Multiply))
-    End Sub
-
-    Public Sub New()
-        STRItemType = IItemTicker.ItemType.Light
+        'w.Draw(Sprite, New RenderStates(BlendMode.Multiply))
+        w.Draw(LightShade, New RenderStates(BlendMode.Alpha))
     End Sub
 
     Sub New(Id As Integer, xspeed As Single, yspeed As Single, location As Point, radius As Integer, variation As Integer, color As SFML.Graphics.Color, AttachOffset As Point)
@@ -166,15 +166,25 @@ Public Class Light
         _AttachOffset = AttachOffset
         _Location = location
         _Radius = radius
-        _Sprite = New Sprite(MainGame.LightText)
+        _Sprite = New Sprite(LightText)
         _Sprite.Origin = New Vector2f(_Sprite.Origin.X + _Sprite.GetGlobalBounds.Width / 2, _Sprite.Origin.Y + _Sprite.GetGlobalBounds.Height / 2)
         _SpriteColor = color
         STRItemType = IItemTicker.ItemType.Light
+
+        'To color the light
+
+        LightShade = New Sprite(MainGame.LightShade)
+        LightShade.Origin = New Vector2f(LightShade.Origin.X + LightShade.GetGlobalBounds.Width / 2, LightShade.Origin.Y + LightShade.GetGlobalBounds.Height / 2)
+        LightShade.Color = color
+        LightShade.Scale = New Vector2f(CSng((Size.Width) / LightShade.Texture.Size.X), CSng((Size.Height) / LightShade.Texture.Size.Y))
     End Sub
 
 
-    Public Sub SetAttachedObj(ByRef Obj As IEntity) Implements IItemTicker.SetAttachedObj
+    Public Sub SetAttachedObj(ByRef Obj As IEntity, Optional ByVal CenterOffset As Boolean = True) Implements IItemTicker.SetAttachedObj
         _AttachedObj = Obj
+        If CenterOffset Then
+            _AttachOffset = New Point(CInt(Obj.Size.Width / 2 + AttachOffset.X), CInt(Obj.Size.Height / 2 + AttachOffset.Y))
+        End If
     End Sub
 
     Public Function GetAttachedObj() As IEntity Implements IItemTicker.GetAttachedObj

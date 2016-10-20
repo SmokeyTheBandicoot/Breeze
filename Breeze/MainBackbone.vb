@@ -212,7 +212,7 @@ Module MainBackbone
         'NOTE: FinishPosX and FinishPosY are contained in an item. When player intersects one of those the level ends
         Try
 
-            l.BackGround = New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
+            l.BackGround = New Background(New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\background2-1.gif")))
             l.BackGround.HScroll = Background.HorizontalScrollMode.Repeated
             l.BackGround.ScrollSpeedX = 10
             l.Width = 20000

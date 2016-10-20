@@ -14,9 +14,11 @@ Public Interface IEntityTicker
 
     Property STREntityType As EntityType
 
-    Property Sprite As Sprite
+    Property CShape As CircleShape
 
-    Property SpriteColor As SFML.Graphics.Color
+    Property Texture As Texture
+
+    Property Color As SFML.Graphics.Color
 
     Sub Tick()
 

@@ -119,7 +119,7 @@ Public Class CheckPoint
         Throw New NotImplementedException()
     End Sub
 
-    Public Sub SetAttachedObj(ByRef Obj As IEntity) Implements IItemTicker.SetAttachedObj
+    Public Sub SetAttachedObj(ByRef Obj As IEntity, Optional ByVal CenterOffset As Boolean = True) Implements IItemTicker.SetAttachedObj
         Throw New NotImplementedException()
     End Sub
 
