@@ -7,6 +7,7 @@ Imports NAudio.Wave
 Imports System.Threading
 Imports System.Windows.Forms
 Imports GameShardsCoreSFML
+Imports NCalc
 'Imports TGUI
 
 Module MainGame
@@ -170,18 +171,21 @@ Module MainGame
                 'If Background.Right < window.Size.X Then
                 '    For x = 0 To Background.GetHowManyRepeated(window,level)
                 '        Background.BGImage.Position = New Vector2f(x * Background.BGImage.Texture.Size.X - BackScroll, Background.BGImage.Position.Y)
-                window.Draw(level.BackGround.BGImage, New RenderStates(BlendMode.Alpha))
+                window.Draw(level.BackGround.BGImage)
                 level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X + level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
-                window.Draw(level.BackGround.BGImage, New RenderStates(BlendMode.Alpha))
+                window.Draw(level.BackGround.BGImage)
                 level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X + level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
-                window.Draw(level.BackGround.BGImage, New RenderStates(BlendMode.Alpha))
+                window.Draw(level.BackGround.BGImage)
                 level.BackGround.BGImage.Position = New Vector2f(level.BackGround.BGImage.Position.X - 2 * level.BackGround.BGImage.Texture.Size.X, level.BackGround.BGImage.Position.Y)
-                'Next
 
                 'End If
             Case Background.HorizontalScrollMode.Stretched
 
+                'Case Else
+
+
         End Select
+
 
         'Draw Background objects
         'Draw Blocks
@@ -276,8 +280,13 @@ Module MainGame
 
         'Load the correct level - should go in tandem with MainMenu
         level = LoadLevel("No path yet")
-        level.Darkness = New SFML.Graphics.Color(0, 0, 0, 255)
+        level.Darkness = New SFML.Graphics.Color(0, 0, 0, 248)
         level.PlayerLightIntensity = 300
+        level.BackGround = New Background(New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\background2-19.jpg")))
+        level.BackGround.HScroll = Background.HorizontalScrollMode.Repeated
+        level.BackGround.ScrollSpeedX = 10
+        level.BackGround.BGImage.Position = New Vector2f(0, 0)
+        level.Width = 20000
 
         'Load the items from the level
 
@@ -294,6 +303,7 @@ Module MainGame
         Dim l As New Light(1, Nothing, Nothing, Nothing, level.PlayerLightIntensity * 2, 0, New SFML.Graphics.Color(0, 0, 255, 128), New Point(40, 10))
         l.SetAttachedObj(DirectCast(Player, IEntity))
         Items.Add(l)
+
         'level.BackGround.BGImage.Color = New SFML.Graphics.Color(level.BackGround.BGImage.Color.R, level.BackGround.BGImage.Color.G, level.BackGround.BGImage.Color.B, 128)
 
     End Sub

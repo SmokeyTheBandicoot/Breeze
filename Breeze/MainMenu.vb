@@ -63,6 +63,7 @@ Module MainMenu
         With CareerBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Career"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -82,6 +83,7 @@ Module MainMenu
         With LevelEditorBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Level Editor"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -101,6 +103,7 @@ Module MainMenu
         With FreePlayBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Free Play"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -120,6 +123,7 @@ Module MainMenu
         With TimeTrialBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Time Trials"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -139,6 +143,7 @@ Module MainMenu
         With ArcadeBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Arcade"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -158,6 +163,7 @@ Module MainMenu
         With OptionsBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Options"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -177,6 +183,7 @@ Module MainMenu
         With CreditsBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Credits"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -196,6 +203,7 @@ Module MainMenu
         With ExitBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Quit"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -215,6 +223,7 @@ Module MainMenu
         With NewBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "New"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -234,6 +243,7 @@ Module MainMenu
         With LoadBTN
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Load"
+            .IDStr = .Text
             .ForeColor = Drawing.Color.Blue
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
@@ -257,7 +267,7 @@ Module MainMenu
             If TypeOf MainMenuGUI.Controls(x) Is SFMLButton Then
                 If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(MainMenuGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
                     CareerSelected = False
-                    Select Case DirectCast(MainMenuGUI.Controls(x), SFMLButton).Text.ToUpper
+                    Select Case DirectCast(MainMenuGUI.Controls(x), SFMLButton).IDStr.ToUpper
                         Case "QUIT"
                             window.Close()
                         Case "CAREER"
@@ -265,7 +275,7 @@ Module MainMenu
                         Case "LEVEL EDITOR"
                             CurrentState = GameStates.LevelEditor
                         Case "OPTIONS"
-                            OptionsBTN.TextAlign = ContentAlignment.MiddleLeft
+                            CurrentState = GameStates.MainMenuOptions
                     End Select
 
                 End If
@@ -276,7 +286,7 @@ Module MainMenu
             If TypeOf MainMenuNewLoadCancelGUI.Controls(x) Is SFMLButton Then
                 If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
                     CareerSelected = False
-                    Select Case DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).Text.ToUpper
+                    Select Case DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).IDStr.ToUpper
                         Case "NEW"
                             CurrentState = GameStates.MainGame
                         Case "LOAD"
