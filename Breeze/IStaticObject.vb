@@ -4,7 +4,7 @@ Imports SFML.System
 
 Public Interface IMovableObject
 
-    Property ID As Integer
+    Property IDStr As String
 
     Property Layer As Integer
 
@@ -12,7 +12,7 @@ Public Interface IMovableObject
 
     Property Hardness As Byte
 
-    Property Size As Point
+    Property Size As Size
 
     Property Sprite As Sprite
 
@@ -27,4 +27,7 @@ Public Interface IMovableObject
     Property YSpeed As Single
 
     Sub Draw(ByRef w As RenderWindow)
+
+    Sub Tick()
+
 End Interface

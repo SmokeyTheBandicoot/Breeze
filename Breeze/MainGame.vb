@@ -48,16 +48,16 @@ Module MainGame
     End Enum
 
     Public Enum WeatherWind As Integer
-        LandBreeze = 35 'Weakest, Arid (Right)
-        SeaBreeze = 35 'Weakest, Humid (Left)
-        LightBreeze = 50 'Weak, almost non-existant, Clean
-        MountainBreeze = 75 'Weak-Normal, Cold, Arid
-        ValleyBreeze = 75 'Weak-Normal, Warm, Humid
-        ModerateBreeze = 150 'Normal, Humid
-        ModerateWind = 200 'Normal-Strong, Clean
-        StrongWind = 250 'Strong, Cold, Clean
-        TempestWind = 350 'Stronger, Cold, Humid
-        WirlWind = 500 'Strongest, Cold
+        LandBreeze = 55 'Weakest, Arid (Right) 35
+        SeaBreeze = 15 'Weakest, Humid (Left) 35
+        LightBreeze = 20 'Weak, almost non-existant, Clean 50
+        MountainBreeze = 25 'Weak-Normal, Cold, Arid 75
+        ValleyBreeze = 30 'Weak-Normal, Warm, Humid 75
+        ModerateBreeze = 35 'Normal, Humid 150
+        ModerateWind = 40 'Normal-Strong, Clean 200
+        StrongWind = 45 'Strong, Cold, Clean 250
+        TempestWind = 50 'Stronger, Cold, Humid 350
+        WirlWind = 55 'Strongest, Cold 500
     End Enum
 
     'Rendering Engine
@@ -77,8 +77,7 @@ Module MainGame
 
     Public Items As New List(Of IItemTicker)
     Public Particles As New List(Of IEntityTicker)
-    Public Blocks As New List(Of Block)
-    Public BGs As New List(Of BackgroundObject)
+    Public MovableObjs As New List(Of IMovableObject)
     Public Player As New Player
 
     'Light Engine (Behind the scenes calculations)
@@ -142,7 +141,11 @@ Module MainGame
                 Particles(y).Location = New Point(CInt(Particles(y).Location.X - XSpeed), CInt(Particles(y).Location.Y))
             Next
 
-            'Update Blocks
+            'Update Blocks and backgrounds (IMovableObject)
+            For x = 0 To MovableObjs.Count - 1
+                MovableObjs(x).Tick()
+                MovableObjs(x).Location = New Point(CInt(MovableObjs(x).Location.X - XSpeed), MovableObjs(x).Location.Y)
+            Next
 
             'Update Background objects
 
@@ -187,41 +190,23 @@ Module MainGame
         End Select
 
 
-        'Draw Background objects
-        'Draw Blocks
-        'Draw Items
+        'Draw Blocks and backgrounds (IMovableObject)
+        For x = 0 To MovableObjs.Count - 1
+            MovableObjs(x).Draw(window)
+        Next
+
+        'Draw Items (IItemTicker)
         For x = 0 To Items.Count - 1
             Items(x).Draw(window)
         Next
 
-        ''Draw Sprites
         ''Draw Lights
-        'Update Darkness mask
-        'Configure Darkness
-
-        'Update Player Lighting
-
-        'LightSprite.Position = New Vector2f((Pict.Left + Pict.Width), CSng(Pict.Top + Pict.Height / 2))
-        'LightSprite.Scale = New Vector2f(CSng((level.PlayerLightIntensity / LightText.Size.X) + (Sin(BaseVariationInterval / 100 * PI)) * level.PlayerLightIntensity * BaseVariationFactor / (100 * 100)), CSng((level.PlayerLightIntensity / LightText.Size.Y) + (Sin(BaseVariationInterval / 100 * PI) * level.PlayerLightIntensity * BaseVariationFactor / (100 * 100))))
-        'Darkness.Clear(level.Darkness)
-        'Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
-        'Darkness.Display()
-
         Darkness.Clear(level.Darkness)
-        'Darkness.Draw(LightSprite, New RenderStates(BlendMode.Multiply))
-
-
-
-
-
-        'Draw Checkpoints
-
-
 
         'Draw player
         window.Draw(Player.Sprite)
 
-        'Draw Particles
+        'Draw Particles (IEntityTicker)
         For x = 0 To Particles.Count - 1
             Particles(x).Draw(window)
         Next
@@ -242,7 +227,7 @@ Module MainGame
         'Draw Darkness
         window.Draw(DarknessSprite)
 
-        'draw the GUI
+        'Draw GUI
         MainGameGUI.Draw(window)
 
         'Draw HUDs
@@ -287,6 +272,22 @@ Module MainGame
         level.BackGround.ScrollSpeedX = 10
         level.BackGround.BGImage.Position = New Vector2f(0, 0)
         level.Width = 20000
+
+
+
+        For x = 0 To 200
+            Dim b As New Block
+            b.Hardness = 255
+            b.Sprite = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\Blocks\Cave\Cave1.png"))
+            b.XEspr = "0"
+            b.YEspr = "0"
+            b.Size = New Size(32, 32)
+            b.Location = New Point(0 + x * 32, 400)
+            b.Sprite.Position = New Vector2f(x * 32, 400)
+
+
+            MovableObjs.Add(b)
+        Next
 
         'Load the items from the level
 
