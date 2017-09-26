@@ -137,10 +137,6 @@
     <Compile Include="IStaticObject.vb" />
     <Compile Include="Level.vb" />
     <Compile Include="LevelEditor.vb" />
-    <Compile Include="GameShards Breeze.Designer.vb">
-      <DependentUpon>GameShards Breeze.vb</DependentUpon>
-    </Compile>
-    <Compile Include="GameShards Breeze.vb" />
     <Compile Include="LevelSelect.vb" />
     <Compile Include="Ligth.vb" />
     <Compile Include="MainBackbone.vb" />
@@ -170,9 +166,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BlocksForm.resx">
       <DependentUpon>BlocksForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GameShards Breeze.resx">
-      <DependentUpon>GameShards Breeze.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
