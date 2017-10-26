@@ -6,6 +6,8 @@ Imports SFML.Window
 Imports NAudio.Wave
 Imports System.Threading
 Imports System.Windows.Forms
+Imports GameShardsCore2
+Imports GameShardsCore2.Geometry.Geometry2D
 Imports GameShardsCoreSFML
 Module MainMenu
 
@@ -13,7 +15,11 @@ Module MainMenu
     Public CareerSelected As Boolean = False
 
     'Background
-    Dim Background As New Background(New Sprite(New Texture("C:\Program Files (x86)\SMBX141\GFXPack\NSMB\NSMBWii\Backgrounds\New Super Mario Bros. Wii Custom Backgrounds\background2-19.gif")))
+    Dim Background As New Background(New Sprite(New Texture("F:\Backup\Users\utente\Pictures\Disegni SmokeyTheBandicoot\Editati\TributeToGrootOriginalCut.png")))
+
+    'Button Background
+    Dim btn1 As New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512.png"))
+    Dim btn2 As New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512.png"))
 
     'GUI location
     Dim UnitX As Integer
@@ -23,23 +29,23 @@ Module MainMenu
     Dim MainMenuGUI As New GUI
     Dim MainMenuNewLoadCancelGUI As New GUI
 
-    Dim CareerBTN As New SFMLButton
-    Dim LevelEditorBTN As New SFMLButton
-    Dim FreePlayBTN As New SFMLButton
-    Dim ArcadeBTN As New SFMLButton
-    Dim TimeTrialBTN As New SFMLButton
-    Dim OptionsBTN As New SFMLButton
-    Dim CreditsBTN As New SFMLButton
-    Dim ExitBTN As New SFMLButton
-    Dim TitleLBL As New SFMLLabel
-    Dim DownTextLBL As New SFMLLabel
-    Dim FBBTN As New SFMLButton
-    Dim TWBTN As New SFMLButton
-    Dim GHBTN As New SFMLButton
-    Dim EMBTN As New SFMLButton
-    Dim NewBTN As New SFMLButton
-    Dim LoadBTN As New SFMLButton
-    Dim CancelBTN As New SFMLButton
+    Dim WithEvents CareerBTN As New SFMLButton
+    Dim WithEvents LevelEditorBTN As New SFMLButton
+    Dim WithEvents FreePlayBTN As New SFMLButton
+    Dim WithEvents ArcadeBTN As New SFMLButton
+    Dim WithEvents TimeTrialBTN As New SFMLButton
+    Dim WithEvents OptionsBTN As New SFMLButton
+    Dim WithEvents CreditsBTN As New SFMLButton
+    Dim WithEvents ExitBTN As New SFMLButton
+    Dim WithEvents TitleLBL As New SFMLLabel
+    Dim WithEvents DownTextLBL As New SFMLLabel
+    Dim WithEvents FBBTN As New SFMLButton
+    Dim WithEvents TWBTN As New SFMLButton
+    Dim WithEvents GHBTN As New SFMLButton
+    Dim WithEvents EMBTN As New SFMLButton
+    Dim WithEvents NewBTN As New SFMLButton
+    Dim WithEvents LoadBTN As New SFMLButton
+    Dim WithEvents CancelBTN As New SFMLButton
 
     Sub DoMainMenu()
 
@@ -64,7 +70,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Career"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -74,8 +80,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 30 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(CareerBTN)
         End With
@@ -84,7 +90,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Level Editor"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -94,8 +100,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 36 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(LevelEditorBTN)
         End With
@@ -104,7 +110,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Free Play"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -114,8 +120,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 42 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(FreePlayBTN)
         End With
@@ -124,7 +130,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Time Trials"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -134,8 +140,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 48 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(TimeTrialBTN)
         End With
@@ -144,7 +150,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Arcade"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -154,8 +160,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 54 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(ArcadeBTN)
         End With
@@ -164,7 +170,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Options"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -174,8 +180,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 60 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(OptionsBTN)
         End With
@@ -184,7 +190,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Credits"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -194,8 +200,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 66 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(CreditsBTN)
         End With
@@ -204,7 +210,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Quit"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -214,8 +220,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 - .Size.Width \ 2), 72 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuGUI.Controls.Add(ExitBTN)
         End With
@@ -224,7 +230,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "New"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -234,8 +240,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 + CareerBTN.Size.Width \ 2 + UnitX \ 30), 30 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = New Sprite(btn2)
             .TextOffset = New Vector2f(0, -12)
             MainMenuNewLoadCancelGUI.Controls.Add(NewBTN)
         End With
@@ -244,7 +250,7 @@ Module MainMenu
             .TextAlign = ContentAlignment.MiddleCenter
             .Text = "Load"
             .IDStr = .Text
-            .ForeColor = Drawing.Color.Blue
+            .ForeColor = Drawing.Color.White
             .SFMLFontSize = 48
             .SFMLFont = GlobalFont
             .Toggleable = True
@@ -254,8 +260,8 @@ Module MainMenu
             .Location = New Point(CInt(window.Size.X \ 2 + CareerBTN.Size.Width \ 2 + UnitX \ 30), 36 * UnitY)
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = btn1
+            .SpriteToggled = btn2
             .TextOffset = New Vector2f(0, -12)
             MainMenuNewLoadCancelGUI.Controls.Add(LoadBTN)
         End With
@@ -263,10 +269,12 @@ Module MainMenu
     End Sub
 
     Sub MainMenuWindowClick(sender As Object, e As MouseButtonEventArgs)
+
+        CareerSelected = False
+
         For x = 0 To MainMenuGUI.Controls.Count - 1
             If TypeOf MainMenuGUI.Controls(x) Is SFMLButton Then
-                If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(MainMenuGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
-                    CareerSelected = False
+                If CheckIfRectangleIntersectsPoint(DirectCast(MainMenuGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
                     Select Case DirectCast(MainMenuGUI.Controls(x), SFMLButton).IDStr.ToUpper
                         Case "QUIT"
                             window.Close()
@@ -277,14 +285,13 @@ Module MainMenu
                         Case "OPTIONS"
                             CurrentState = GameStates.MainMenuOptions
                     End Select
-
                 End If
             End If
         Next
 
         For x = 0 To MainMenuNewLoadCancelGUI.Controls.Count - 1
             If TypeOf MainMenuNewLoadCancelGUI.Controls(x) Is SFMLButton Then
-                If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
+                If CheckIfRectangleIntersectsPoint(DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
                     CareerSelected = False
                     Select Case DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).IDStr.ToUpper
                         Case "NEW"
@@ -303,7 +310,7 @@ Module MainMenu
     Sub MainMenuMouseMoved(sender As Object, e As MouseMoveEventArgs)
         For x = 0 To MainMenuGUI.Controls.Count - 1
             If TypeOf MainMenuGUI.Controls(x) Is SFMLButton Then
-                If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(MainMenuGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
+                If CheckIfRectangleIntersectsPoint(DirectCast(MainMenuGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
                     DirectCast(MainMenuGUI.Controls(x), SFMLButton).IsToggled = True
                 Else
                     DirectCast(MainMenuGUI.Controls(x), SFMLButton).IsToggled = False
@@ -313,7 +320,7 @@ Module MainMenu
 
         For x = 0 To MainMenuNewLoadCancelGUI.Controls.Count - 1
             If TypeOf MainMenuNewLoadCancelGUI.Controls(x) Is SFMLButton Then
-                If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
+                If CheckIfRectangleIntersectsPoint(DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
                     DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).IsToggled = True
                 Else
                     DirectCast(MainMenuNewLoadCancelGUI.Controls(x), SFMLButton).IsToggled = False

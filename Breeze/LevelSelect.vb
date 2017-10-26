@@ -6,6 +6,8 @@ Imports SFML.Window
 Imports NAudio.Wave
 Imports System.Threading
 Imports System.Windows.Forms
+Imports GameShardsCore2
+Imports GameShardsCore2.Geometry.Geometry2D
 Imports GameShardsCoreSFML
 Module LevelSelect
 
@@ -14,10 +16,7 @@ Module LevelSelect
     Dim BTNY As Byte = 6
 
     'Background
-    Dim Background As New Background(New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\background2-12.gif")))
-
-    'GUI
-    Dim LevelSelectGUI As New GUI
+    Dim Background As New Background(New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\Levels\Meadows\background2-13.gif")))
 
     Dim Levels As New List(Of String)
     Dim BTNs(,) As SFMLButton
@@ -58,8 +57,8 @@ Module LevelSelect
                     .Location = New Point(CInt(window.Size.X \ 2 - SqSize.Width \ 2 + 50 * x + 10 * x), CInt(window.Size.Y - 200 - SqSize.Height + 50 * y + 10 * y))
                     .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
                     .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-                    .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-                    .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+                    .SpriteNormal = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512.png"))
+                    .SpriteToggled = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512T.png"))
                     AddHandler b.Click, AddressOf LevelButtonClick
                     LevelSelectGUI.Controls.Add(b)
                 End With
@@ -81,8 +80,8 @@ Module LevelSelect
             '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512.png"))
+            .SpriteToggled = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512T.png"))
             LevelSelectGUI.Controls.Add(BackBTN)
         End With
 
@@ -101,8 +100,8 @@ Module LevelSelect
             '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512.png"))
+            .SpriteToggled = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512T.png"))
             LevelSelectGUI.Controls.Add(TutorialBTN)
         End With
 
@@ -121,8 +120,8 @@ Module LevelSelect
             '.AutoPadding = True
             .ColorNormal = New SFML.Graphics.Color(255, 255, 255, 255)
             .ColorToggled = New SFML.Graphics.Color(200, 200, 200, 200)
-            .SpriteNormal = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayout.png"))
-            .SpriteToggled = New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\MainLayoutToggled.png"))
+            .SpriteNormal = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512.png"))
+            .SpriteToggled = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\BTN512T.png"))
             LevelSelectGUI.Controls.Add(FinallvlBTN)
         End With
         Console.WriteLine("Finished Loading LevelSelect GUI!")
@@ -159,7 +158,7 @@ Module LevelSelect
     Sub LevelSelectMouseMoved(sender As Object, e As MouseMoveEventArgs)
         For x = 0 To LevelSelectGUI.Controls.Count - 1
             If TypeOf LevelSelectGUI.Controls(x) Is SFMLButton Then
-                If GGeom.CheckIfRectangleIntersectsPoint(DirectCast(LevelSelectGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
+                If CheckIfRectangleIntersectsPoint(DirectCast(LevelSelectGUI.Controls(x), SFMLButton).Bounds, New Point(e.X, e.Y)) Then
                     DirectCast(LevelSelectGUI.Controls(x), SFMLButton).IsToggled = True
                 Else
                     DirectCast(LevelSelectGUI.Controls(x), SFMLButton).IsToggled = False

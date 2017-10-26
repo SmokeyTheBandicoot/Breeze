@@ -30,4 +30,6 @@ Public Interface IMovableObject
 
     Sub Tick()
 
+    Sub PlayerCollide()
+
 End Interface

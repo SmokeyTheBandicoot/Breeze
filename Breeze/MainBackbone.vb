@@ -7,9 +7,14 @@ Imports NAudio.Wave
 Imports System.Threading
 Imports System.Windows.Forms
 Imports GameShardsCoreSFML
+Imports GameShardsCore2
 Imports System.IO
 
 Module MainBackbone
+
+    'Base
+    Public IsExit As Boolean = False
+    Public IsPaused As Boolean = False
 
     'Main Window
     Public WithEvents window As RenderWindow
@@ -19,20 +24,18 @@ Module MainBackbone
     Public MainGameGUI As New GUI
     Public OptionGUI As New GUI
     Public EditorGUI As New GUI
+    Public LevelSelectGUI As New GUI
+    Public InGameOptionsGUI As New GUI
 
     'Core
-    Public GGeom As New GameShardsCore.Base.Geometry.Geometry
     Public GUtils As New Utils
-
-    'Resources
-    Public ResourceFold As String = "GameShardsCore\Resources\Fonts"
 
     'GameStates
     Public CurrentState As GameStates
 
     'Audio
     'Sound
-    Public RdMusic As New AudioFileReader("C:\GameShardsSoftware\Resources\Music\TerraSwoopForceTheme.mp3")
+    Public RdMusic As New AudioFileReader("F:\Backup\Users\utente\Desktop\Gameshards\Musiche\Bossfight\Bossfight - Be Gone Mr. Gawne.mp3")
     Public WaMusic As New WaveOut
     Public MusicIsMuted As Boolean = False
     'Music
@@ -41,6 +44,7 @@ Module MainBackbone
     Public SoundIsMuted As Boolean = False
 
     'Font
+    'Public GlobalFont As SFML.Graphics.Font = New SFML.Graphics.Font("crash-a-like.ttf")
     Public GlobalFont As SFML.Graphics.Font = New SFML.Graphics.Font("crash-a-like.ttf")
     Public KeyFont As New SFML.Graphics.Font("times.ttf")
 
@@ -58,6 +62,7 @@ Module MainBackbone
         PreInit()
         Initialize()
         PostInit()
+        CollisionEngineStart()
         PostInitMainMenu()
         GUILoadMainMenu()
         PostInitMainGame()
@@ -66,6 +71,8 @@ Module MainBackbone
         GUILoadLevelEditor()
         PostInitLevelSelect()
         GUILoadLevelSelect()
+        PostInitInGameOptions()
+        GUILoadInGameOptions()
 
 
         'Graphics thread
@@ -82,6 +89,7 @@ Module MainBackbone
 
             'Do the things to do
             If CurrentState.Name.ToUpper = "MAINGAME" Then
+                IsPaused = False
                 DoMainGame()
             ElseIf CurrentState.Name.ToUpper = "LEVELEDITOR" Then
                 DoEditor()
@@ -89,12 +97,17 @@ Module MainBackbone
                 DoMainMenu()
             ElseIf CurrentState.Name.ToUpper = "LEVELSELECT" Then
                 DoLevelSelect()
+            ElseIf CurrentState.Name.ToUpper = "INGAMEOPTIONS" Then
+                IsPaused = True
+                DoMainGame()
+                DoInGameOptions()
+
             End If
 
             'Invalidate the window
             window.Display()
 
-            window.SetTitle("GameShards Breeze lol")
+            window.SetTitle("GameShards Breeze")
 
         End While
     End Sub
@@ -143,6 +156,8 @@ Module MainBackbone
                 MainMenuWindowClick(sender, e)
             Case CurrentState.Name.ToUpper = "LEVELSELECT"
                 LevelSelectWindowClick(sender, e)
+            Case CurrentState.Name.ToUpper = "INGAMEOPTIONS"
+                InGameOptionsWindowClick(sender, e)
         End Select
     End Sub
 
@@ -156,6 +171,8 @@ Module MainBackbone
                 '    MainMenuWindowClickUp(sender, e)
                 'Case CurrentState.Name.ToUpper = "LEVELSELECT"
                 'LevelSelectWindowClickUp(sender, e)
+            Case CurrentState.Name.ToUpper = "INGAMEOPTIONS"
+                InGameOptionsClickUp(sender, e)
         End Select
     End Sub
 
@@ -202,6 +219,8 @@ Module MainBackbone
                 MainMenuMouseMoved(sender, e)
             Case CurrentState.Name.ToUpper = "LEVELSELECT"
                 LevelSelectMouseMoved(sender, e)
+            Case CurrentState.Name.ToUpper = "INGAMEOPTIONS"
+                InGameOptionsMouseMoved(sender, e)
         End Select
     End Sub
 
@@ -212,7 +231,7 @@ Module MainBackbone
         'NOTE: FinishPosX and FinishPosY are contained in an item. When player intersects one of those the level ends
         Try
 
-            l.BackGround = New Background(New Sprite(New Texture("C:\GameShardsSoftware\Resources\Sprites\Breeze\background2-1.gif")))
+            l.BackGround = New Background(New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\Levels\Meadows\background2-13.gif")))
             l.BackGround.HScroll = Background.HorizontalScrollMode.Repeated
             l.BackGround.ScrollSpeedX = 10
             l.Width = 20000

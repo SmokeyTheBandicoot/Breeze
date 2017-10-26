@@ -65,6 +65,30 @@ Namespace My
                 Me("UnlockedLevel") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("100")>  _
+        Public Property SoundVolume() As Byte
+            Get
+                Return CType(Me("SoundVolume"),Byte)
+            End Get
+            Set
+                Me("SoundVolume") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("100")>  _
+        Public Property MusicVolume() As Byte
+            Get
+                Return CType(Me("MusicVolume"),Byte)
+            End Get
+            Set
+                Me("MusicVolume") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

@@ -6,6 +6,8 @@ Imports SFML.Window
 Imports NAudio.Wave
 Imports System.Threading
 Imports System.Windows.Forms
+Imports GameShardsCore2
+Imports GameShardsCore2.Geometry.Geometry2D
 Imports GameShardsCoreSFML
 
 Module LevelEditor
@@ -165,8 +167,8 @@ Module LevelEditor
         End With
 
         With FakeCHK
-            .CheckSpriteNormal = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\CheckMark.png"))
-            .CheckSpriteUnchecked = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\CheckMark1.png"))
+            .CheckSpriteNormal = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\CB64.png"))
+            .CheckSpriteUnchecked = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\CBT64.png"))
             .Checked = True
             .Location = New Point(500, 500)
             .ForeColor = Drawing.Color.Purple
@@ -182,9 +184,9 @@ Module LevelEditor
             EditorGUI.Controls.Add(FakeCHK)
         End With
 
-        With realCHK
-            .CheckSpriteNormal = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\CheckMark.png"))
-            .CheckSpriteUnchecked = New Sprite(New Texture("C:\\GameShardsSoftware\Resources\Sprites\Breeze\CheckMark1.png"))
+        With RealCHK
+            .CheckSpriteNormal = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\CB64.png"))
+            .CheckSpriteUnchecked = New Sprite(New Texture("F:\Backup\GameShardsSoftware\GameShardsBreeze\Resources\Sprites\GUI\CBT64.png"))
             .Checked = True
             .Location = New Point(500, 550)
             .ForeColor = Drawing.Color.Purple
@@ -326,7 +328,7 @@ Module LevelEditor
             EditorGUI.Controls(x).CheckClick(New Point(e.X, e.Y))
 
             'Additional External Click Checks
-            If GGeom.CheckIfRectangleIntersectsPoint(New Rectangle(EditorGUI.Controls(x).location.X, EditorGUI.Controls(x).location.Y, EditorGUI.Controls(x).size.Width, EditorGUI.Controls(x).size.Height), New Point(e.X, e.Y)) Then
+            If CheckIfRectangleIntersectsPoint(New Rectangle(EditorGUI.Controls(x).location.X, EditorGUI.Controls(x).location.Y, EditorGUI.Controls(x).size.Width, EditorGUI.Controls(x).size.Height), New Point(e.X, e.Y)) Then
 
                 If TypeOf EditorGUI.Controls(x) Is SFMLKeyboard Then
                     If NameTB.IsActive Then
